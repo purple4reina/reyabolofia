@@ -37,7 +37,6 @@ search_enabled: false
 # to override the default setting.
 exclude:
   - README.md
-  - src/*.ly
   - Gemfile
   - Gemfile.lock
 #   - node_modules
