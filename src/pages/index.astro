@@ -244,14 +244,18 @@ const programList = [
     z-index: 0;
   }
 
-  /* The backdrop is black, so the photo can slide left and its edges meet the
-     page without a seam, leaving open stage on the right for the name. Only
-     the bottom edge fades, so the clarinet's bell stays fully visible. */
+  /* The backdrop is black, so the photo can slide left onto the stage,
+     leaving open stage on the right for the name. Its right edge gets only a
+     sliver of fade, enough to hide the seam with the page: the bell sits at
+     about 92% across the photo (94% on 4:3 screens), so a wider fade would
+     dim it. */
   .hero-media {
     position: absolute;
     inset: 0 13% 0 -13%;
     transform-origin: 40% 40%;
     will-change: transform;
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 3%);
+    mask-image: linear-gradient(to left, transparent, #000 3%);
   }
 
   .hero-media :global(img) {
@@ -376,8 +380,12 @@ const programList = [
   @media (min-width: 861px) and (max-aspect-ratio: 8 / 5) {
     .hero-media {
       inset: 0 26% 18% -16%;
-      -webkit-mask-image: linear-gradient(to top, transparent, #000 22%);
-      mask-image: linear-gradient(to top, transparent, #000 22%);
+      -webkit-mask-image:
+        linear-gradient(to left, transparent, #000 3%), linear-gradient(to top, transparent, #000 22%);
+      mask-image:
+        linear-gradient(to left, transparent, #000 3%), linear-gradient(to top, transparent, #000 22%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
     }
   }
 
