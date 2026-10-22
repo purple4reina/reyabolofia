@@ -1,0 +1,120 @@
+---
+// A button that plays a recording in the site-wide player. With `queue`, the
+// player continues through those tracks after this one.
+interface Props {
+  slug: string;
+  title: string;
+  queue?: string[];
+  text?: string;
+  variant?: 'icon' | 'pill' | 'solid';
+  class?: string;
+}
+const { slug, title, queue, text, variant = 'icon', class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['play-btn', `play-btn--${variant}`, className]}
+  data-play={slug}
+  data-queue={queue?.join(',')}
+  data-title={title}
+  aria-label={text ? undefined : `Play ${title}`}
+>
+  <span class="icon" aria-hidden="true">
+    <svg class="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"></path></svg>
+    <svg class="i-pause" viewBox="0 0 16 16"
+      ><rect x="3.6" y="2.8" width="3" height="10.4" fill="currentColor"></rect><rect
+        x="9.4"
+        y="2.8"
+        width="3"
+        height="10.4"
+        fill="currentColor"></rect></svg
+    >
+  </span>
+  {text && <span class="text">{text}</span>}
+</button>
+
+<style>
+  .play-btn {
+    --size: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    flex: none;
+    border: 1px solid color-mix(in oklab, var(--fg) 35%, transparent);
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    line-height: 1;
+    transition:
+      background 0.25s var(--ease),
+      border-color 0.25s var(--ease),
+      color 0.25s var(--ease);
+  }
+
+  .play-btn--icon {
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+  }
+
+  .play-btn--pill,
+  .play-btn--solid {
+    min-height: 46px;
+    padding: 0 1.4em 0 1.1em;
+    border-radius: 999px;
+  }
+
+  .play-btn--solid {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--surface);
+  }
+
+  .play-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .play-btn--solid:hover {
+    color: var(--surface);
+    background: color-mix(in oklab, var(--accent) 85%, var(--fg));
+  }
+
+  .play-btn.is-current {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .play-btn--solid.is-current {
+    color: var(--surface);
+  }
+
+  .icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+  }
+
+  .icon svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .i-pause {
+    opacity: 0;
+  }
+
+  .play-btn.is-playing .i-play {
+    opacity: 0;
+  }
+
+  .play-btn.is-playing .i-pause {
+    opacity: 1;
+  }
+</style>

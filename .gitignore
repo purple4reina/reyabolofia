@@ -1,12 +1,15 @@
-*.ps
-*.midi
-*.mid
-*.log
-*.swp
-*.wav
-*~
+# build output
+dist/
+_site/
+.astro/
+
+# dependencies
+node_modules/
+
+# misc
 .DS_Store
-_site
-.sass-cache
-.jekyll-metadata
-.bundle/
+*.log
+.env
+
+# Brainstorming mockups
+.superpowers/

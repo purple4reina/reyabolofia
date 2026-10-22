@@ -1,0 +1,668 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import PlayButton from '../components/PlayButton.astro';
+import TrackList from '../components/TrackList.astro';
+import CounterpointRing from '../components/CounterpointRing.astro';
+import Upcoming from '../components/Upcoming.astro';
+import { Picture } from 'astro:assets';
+
+import hero from '../assets/photos/eder-horizontal-color.jpg';
+import pouf from '../assets/photos/eder-pouf-bw.jpg';
+import shoulders from '../assets/photos/eder-shoulders-color.jpg';
+
+import { featured, recital } from '../data/recordings';
+import { mail } from '../data/site';
+
+const featuredTracks = featured.map((slug) => recital.tracks.find((t) => t.slug === slug)!);
+const programList = [
+  { composer: 'Verdi', work: 'La forza del destino' },
+  { composer: 'Bellison', work: 'Four Hebraic Pictures' },
+  { composer: 'Gershwin', work: 'Three Preludes' },
+  { composer: 'Milhaud', work: 'Duo concertant' },
+  { composer: 'Reich', work: 'New York Counterpoint' },
+];
+---
+
+<Base>
+  <!-- The hero stays put while the introduction slides up over it. -->
+  <div class="curtain">
+    <section class="hero stage" data-hero aria-label="Introduction">
+      <div class="hero-media" data-hero-media>
+        <Picture
+          src={hero}
+          alt="Rey Abolofia seated cross-legged on a chair, holding his clarinet out at arm's length and looking along it."
+          formats={['webp']}
+          layout="full-width"
+          fit="cover"
+          style="object-position: 38% 0%"
+          sizes="100vw"
+          priority
+          quality={82}
+        />
+      </div>
+      <div class="hero-shade" data-hero-shade></div>
+      <div class="hero-copy wrap" data-hero-copy>
+        <div class="hero-block">
+          <h1 class="hero-name">
+            <span class="line"><span data-hero-line>Rey</span></span>
+            <span class="line"><span data-hero-line>Abolofia</span></span>
+          </h1>
+          <div class="hero-sub">
+            <p class="hero-role" data-hero-fade>Clarinet</p>
+            <p class="hero-post" data-hero-fade>Principal Clarinet, Salem Philharmonia Orchestra</p>
+            <div class="hero-actions" data-hero-fade>
+              <PlayButton slug={featured[0]} title="Selected recordings" queue={featured} text="Listen" variant="solid" />
+              <a class="btn" href="/the-jewish-clarinet">The Jewish Clarinet</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="hero-credit meta" data-hero-fade>Photo: Norm Eder</p>
+    </section>
+
+    <section class="intro paper section" aria-labelledby="intro-title">
+      <div class="wrap grid">
+        <div class="intro-main">
+          <h2 id="intro-title" class="intro-lead">
+            Rey Abolofia is Principal Clarinet of the Salem Philharmonia Orchestra and a recitalist who talks with his
+            audiences about the music he plays.
+          </h2>
+          <div class="copy intro-copy">
+            <p>
+              He has given recitals across the United States, Europe, and Africa, and plays bass clarinet with the
+              Sunnyside Symphony Orchestra. He is also a music historian, with graduate work in musicology, and has
+              taught clarinet in Portland since 2001.
+            </p>
+            <p><a href="/about">Read the full biography</a></p>
+          </div>
+        </div>
+
+        <dl class="facts">
+          <div>
+            <dt>Orchestras</dt>
+            <dd>Salem Philharmonia Orchestra, Principal Clarinet</dd>
+            <dd>Sunnyside Symphony Orchestra, Bass Clarinet</dd>
+          </div>
+          <div>
+            <dt>Studied at</dt>
+            <dd>Eastman School of Music</dd>
+            <dd>Portland State University, MM magna cum laude</dd>
+          </div>
+          <div>
+            <dt>Teaching</dt>
+            <dd>Music history faculty, Music Camps at Wallowa Lake</dd>
+            <dd>Private clarinet studio in Portland since 2001</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </div>
+
+  <section class="listen stage section" aria-labelledby="listen-title">
+    <p class="drift-line" aria-hidden="true" data-drift="-28">
+      Verdi&ensp;Bellison&ensp;Gershwin&ensp;Milhaud&ensp;Reich&ensp;Verdi&ensp;Bellison&ensp;Gershwin
+    </p>
+    <div class="wrap grid listen-grid">
+      <header class="listen-head">
+        <h2 id="listen-title">Listen</h2>
+        <p class="copy muted">
+          Recordings from <cite>The Jewish Clarinet</cite>, with Lee Melaugh, piano. {recital.recorded}.
+        </p>
+        <div class="actions">
+          <a class="btn" href="/listen">All recordings and notes</a>
+        </div>
+      </header>
+      <div class="listen-list">
+        <TrackList tracks={featuredTracks} />
+      </div>
+    </div>
+  </section>
+
+  <CounterpointRing videoHref="/the-jewish-clarinet#watch" />
+
+  <section class="interlude stage" data-interlude aria-label="In Rey's words">
+    <div class="interlude-media" data-interlude-media>
+      <Picture
+        src={pouf}
+        alt="Black-and-white photo of Rey Abolofia seated on a cushion, smiling, holding his clarinet."
+        formats={['webp']}
+        layout="full-width"
+        fit="cover"
+        style="object-position: 60% 10%"
+        sizes="100vw"
+        quality={78}
+      />
+    </div>
+    <div class="interlude-panel">
+      <blockquote class="quote wrap">
+        <p>
+          “This classical music stuff, it’s not a them-over-there thing. It’s an us-right-here thing.”
+        </p>
+        <footer class="meta">Rey Abolofia, from the stage</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="program paper section" aria-labelledby="program-title">
+    <div class="wrap grid">
+      <div class="program-video">
+        <div class="frame video-frame">
+          <video
+            data-loop
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="/video/live-loop-poster.jpg"
+            aria-label="Rey Abolofia performing on stage, without sound."
+          >
+            <source src="/video/live-loop.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <p class="credit">In performance at the Eastside Jewish Commons, Portland</p>
+      </div>
+
+      <div class="program-text">
+        <h2 id="program-title">The Jewish Clarinet</h2>
+        <p class="lead">
+          A recital about how Jewish composers, long shut out of the church and the royal court, came to help create the
+          sound of American classical music.
+        </p>
+        <div class="copy">
+          <p>
+            Five pieces, five worlds: opera, klezmer, the American songbook, French modernism, and minimalism. Rey
+            introduces each piece from the stage, so no background in classical music is needed. The program runs about
+            an hour, for clarinet, piano, and a ring of ten speakers.
+          </p>
+        </div>
+        <ol class="program-list" role="list">
+          {
+            programList.map((p) => (
+              <li>
+                <span class="pc">{p.composer}</span>
+                <cite>{p.work}</cite>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="actions">
+          <a class="btn btn--solid" href="/the-jewish-clarinet">See the program</a>
+          <a class="btn" href={mail.program}>Ask about booking</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="orchestral stage section" aria-labelledby="orch-title">
+    <div class="wrap grid">
+      <Photo
+        class="orch-photo"
+        src={shoulders}
+        alt="Rey Abolofia in a purple shirt, holding his clarinet horizontally across his shoulders and glancing to the side."
+        sizes="(max-width: 860px) 100vw, 50vw"
+        ratio="1 / 1"
+        position="95% 40%"
+        credit="Norm Eder"
+      />
+      <div class="orch-text">
+        <h2 id="orch-title">In the orchestra</h2>
+        <p class="lead">
+          Principal Clarinet of the Salem Philharmonia Orchestra and Bass Clarinet with the Sunnyside Symphony
+          Orchestra.
+        </p>
+        <div class="copy">
+          <p>
+            Rey is available to orchestras and contractors throughout Oregon and Southwest Washington as a substitute
+            on clarinet, bass clarinet, and E♭ clarinet.
+          </p>
+        </div>
+        <div class="actions">
+          <a class="btn btn--solid" href="/orchestral">Résumé and excerpts</a>
+          <a class="btn" href={mail.sub}>Add Rey to your sub list</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Upcoming limit={4} more={{ href: '/orchestral#upcoming', label: 'Full season' }} />
+</Base>
+
+<style>
+  /* ---------- hero + curtain ---------- */
+
+  .curtain {
+    position: relative;
+  }
+
+  .hero {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  /* The backdrop is black, so the photo can slide left and fade into the page,
+     leaving open stage on the right for the name. */
+  .hero-media {
+    position: absolute;
+    inset: 0 13% 0 -13%;
+    transform-origin: 40% 40%;
+    will-change: transform;
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 22%);
+    mask-image: linear-gradient(to left, transparent, #000 22%);
+  }
+
+  .hero-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Darken the right side, where the name sits, and the bottom edge. */
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    background: var(--stage);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to top, rgb(7 7 7 / 0.85), rgb(7 7 7 / 0) 32%),
+      linear-gradient(to left, rgb(7 7 7 / 0.55), rgb(7 7 7 / 0) 45%);
+  }
+
+  .hero-copy {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    align-content: end;
+    justify-items: start;
+    padding-bottom: clamp(48px, 9svh, 112px);
+    /* The photo scales with the screen's width, so the name is placed and sized
+       in vw too: "Rey" starts 66.5% of the way across at every width, which
+       keeps the composition (the name in the open stage under the clarinet)
+       the same on every desktop. The padding cancels the centered .wrap's
+       left edge. */
+    --w: min(100vw - 2 * var(--gutter), var(--max));
+    padding-left: calc(66.5vw - (100vw - var(--w)) / 2);
+    /* How far "Abolofia" steps left of "Rey": set so the line through the R
+       and the A follows Rey's raised arm, then tuned by eye. */
+    --name-size: max(4rem, 8.4vw);
+    --stagger: calc(var(--name-size) * 1.72);
+  }
+
+  .hero-name {
+    font-family: var(--display);
+    font-size: var(--name-size);
+    line-height: 0.86;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+  }
+
+  .line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+    margin-bottom: -0.06em;
+  }
+
+  /* The name and the small text form one block as wide as "Abolofia".
+     "Abolofia" starts the block; "Rey" keeps its place, stepped right; the
+     small text, left-aligned, sits centered under "Abolofia". */
+  .hero-block {
+    display: grid;
+    justify-items: start;
+    width: fit-content;
+    margin-left: calc(-1 * var(--stagger));
+  }
+
+  .hero-name {
+    width: 100%;
+  }
+
+  .hero-name .line:first-child {
+    margin-left: var(--stagger);
+  }
+
+  .hero-sub {
+    justify-self: center;
+    display: grid;
+    justify-items: start;
+  }
+
+  .line > span {
+    display: block;
+  }
+
+  .hero-role {
+    margin-top: clamp(14px, 2vw, 24px);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    color: var(--lilac);
+  }
+
+  .hero-post {
+    margin-top: 4px;
+    color: var(--ink-2);
+    font-size: var(--fs-sm);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: clamp(20px, 3vw, 32px);
+  }
+
+  .hero-credit {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 20px;
+    z-index: 1;
+    color: var(--ink-3);
+  }
+
+  /* Squarer screens (iPad landscape, 4:3 monitors): the photo would fill by
+     height and put Rey's legs behind the small text, so lift the photo and
+     fade its bottom edge into the stage. */
+  @media (min-width: 861px) and (max-aspect-ratio: 8 / 5) {
+    .hero-media {
+      inset: 0 26% 18% -16%;
+      -webkit-mask-image:
+        linear-gradient(to left, transparent, #000 22%), linear-gradient(to top, transparent, #000 22%);
+      mask-image:
+        linear-gradient(to left, transparent, #000 22%), linear-gradient(to top, transparent, #000 22%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
+    }
+  }
+
+  /* ---------- intro (paper) ---------- */
+
+  .intro {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 -40px 80px rgb(0 0 0 / 0.45);
+  }
+
+  .intro-main {
+    grid-column: 1 / span 7;
+  }
+
+  .intro-lead {
+    font-size: var(--fs-xl);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+
+  .intro-copy {
+    margin-top: clamp(28px, 4vw, 48px);
+    color: var(--paper-ink-2);
+  }
+
+  .facts {
+    grid-column: 9 / span 4;
+    display: grid;
+    gap: 28px;
+    align-content: start;
+    padding-top: 10px;
+  }
+
+  .facts div {
+    border-top: 1px solid var(--paper-line);
+    padding-top: 14px;
+  }
+
+  .facts dt {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--paper-ink-2);
+    margin-bottom: 6px;
+  }
+
+  .facts dd {
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+
+
+  /* ---------- listen ---------- */
+
+  .listen {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .drift-line {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(4rem, 12vw, 11rem);
+    line-height: 1;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(236 231 241 / 0.1);
+    margin-bottom: clamp(32px, 6vw, 72px);
+    padding-left: var(--gutter);
+    user-select: none;
+  }
+
+  .listen-head {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .listen-head h2 {
+    font-size: var(--fs-2xl);
+  }
+
+  .listen-list {
+    grid-column: 6 / span 7;
+  }
+
+  /* ---------- interlude ---------- */
+
+  .interlude {
+    position: relative;
+    z-index: 2;
+    /* The photo zooms slightly while it scrolls; clip (unlike hidden) keeps
+       the sticky positioning working. */
+    overflow-x: clip;
+  }
+
+  .interlude-media {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .interlude-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .interlude-panel {
+    position: relative;
+    margin-top: -60svh;
+    min-height: 100svh;
+    display: grid;
+    align-items: end;
+    padding-bottom: clamp(64px, 14svh, 160px);
+    background: linear-gradient(to bottom, rgb(7 7 7 / 0), rgb(7 7 7 / 0.7) 55%, var(--stage));
+  }
+
+  .quote p {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 1rem + 3.6vw, 4.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    max-width: 16em;
+    text-wrap: balance;
+  }
+
+  .quote footer {
+    margin-top: 24px;
+  }
+
+  /* ---------- program (paper) ---------- */
+
+  .program {
+    position: relative;
+    z-index: 2;
+  }
+
+  .program-video {
+    grid-column: 1 / span 4;
+  }
+
+  .video-frame {
+    aspect-ratio: 9 / 16;
+    max-height: 82svh;
+    background: var(--paper-2);
+  }
+
+  .program-text {
+    grid-column: 6 / span 7;
+    display: grid;
+    gap: 24px;
+    align-content: center;
+  }
+
+  .program-text h2 {
+    font-size: var(--fs-2xl);
+    font-style: italic;
+  }
+
+  .program-list {
+    display: grid;
+    border-top: 1px solid var(--paper-line);
+  }
+
+  .program-list li {
+    display: grid;
+    grid-template-columns: 8.5em 1fr;
+    gap: 16px;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--paper-line);
+    align-items: baseline;
+  }
+
+  .pc {
+    font-size: var(--fs-sm);
+    color: var(--paper-ink-2);
+  }
+
+  .program-list cite {
+    font-size: 1.3rem;
+  }
+
+  /* ---------- orchestral ---------- */
+
+  .orchestral {
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.orch-photo) {
+    grid-column: 1 / span 6;
+  }
+
+
+
+  .orch-text {
+    grid-column: 7 / span 6;
+    display: grid;
+    gap: 24px;
+    align-content: center;
+  }
+
+  .orch-text h2 {
+    font-size: var(--fs-2xl);
+  }
+
+  /* ---------- small screens ---------- */
+
+  @media (max-width: 860px) {
+    .hero-media {
+      inset: 0;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .hero-copy {
+      padding-left: 0;
+      padding-inline: var(--gutter);
+      width: 100%;
+    }
+
+    .hero-copy {
+      --name-size: clamp(3.5rem, 19vw, 7rem);
+    }
+
+    .hero-block {
+      margin-left: 0;
+    }
+
+    .hero-sub {
+      justify-self: start;
+    }
+
+    .hero::after {
+      background: linear-gradient(to top, rgb(7 7 7 / 0.96), rgb(7 7 7 / 0.86) 42%, rgb(7 7 7 / 0) 72%);
+    }
+
+    .hero-credit {
+      left: auto;
+      right: var(--gutter);
+      top: calc(var(--header-h) + 8px);
+      bottom: auto;
+    }
+
+    .intro-main,
+    .facts,
+    .listen-head,
+    .listen-list,
+    .program-video,
+    .program-text,
+    :global(.orch-photo),
+    .orch-text {
+      grid-column: 1 / -1;
+    }
+
+    .facts {
+      margin-top: 48px;
+    }
+
+    .listen-list {
+      margin-top: 40px;
+    }
+
+    .program-video {
+      max-width: 340px;
+      margin-bottom: 40px;
+    }
+
+    .orch-text {
+      margin-top: 40px;
+    }
+
+    .program-list li {
+      grid-template-columns: 6.5em 1fr;
+    }
+  }
+</style>

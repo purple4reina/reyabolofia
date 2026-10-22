@@ -1,0 +1,369 @@
+---
+// Teaching: for anyone thinking about lessons, and a way in to the student
+// resources. Written in Rey's voice, to the student. No photo of Rey: the page
+// is about the student. Never say "practice" here; time at home is "playing".
+import Base from '../../layouts/Base.astro';
+import { mail } from '../../data/site';
+
+const steps = [
+  {
+    title: 'Write to me',
+    body: 'Tell me a little about yourself. I’ll write back about my teaching, how lessons go, and my rates.',
+  },
+  {
+    title: 'Your first lesson is free',
+    body: 'We’ll talk and get to know each other: who you are, what draws you to the clarinet, and what you want from lessons. Then we’ll play, so you get a feel for what working together is like.',
+  },
+  {
+    title: 'Every lesson after',
+    body: 'Rhythm, sound, scales, and solo work, with music you help choose. Most lessons end with the two of us sight-reading a duet, because it’s fun and it’s a challenge.',
+  },
+];
+
+const cards = [
+  { href: '/teaching/warm-ups', title: 'Warm-ups and études' },
+  { href: '/teaching/solos', title: 'Solos' },
+  { href: '/teaching/tips', title: 'Tips' },
+];
+---
+
+<Base
+  title="Teaching"
+  description="Clarinet lessons in Portland, Oregon with Rey Abolofia, for every age and every level, adults included. The first lesson is free. Plus warm-ups, solos, and tips for his students."
+>
+  <div class="curtain">
+    <!-- "Practicing" is crossed out and "Playing" rises in below it (app.ts initHero). -->
+    <section class="t-hero stage" data-hero>
+      <div class="t-copy wrap" data-hero-copy>
+        <p class="crumb" aria-hidden="true" data-hero-fade>Teaching</p>
+        <h1 aria-label="Teaching: playing, not practicing">
+          <span class="line" aria-hidden="true">
+            <span class="old is-struck" data-hero-line data-hero-struck>
+              Practicing<span class="strike" data-hero-strike></span>
+            </span>
+          </span>
+          <span class="line" aria-hidden="true"><span class="new" data-hero-next>Playing</span></span>
+        </h1>
+        <p class="lead" data-hero-fade>Clarinet lessons in Portland, for every age and every level.</p>
+        <div class="actions" data-hero-fade>
+          <a class="btn btn--solid" href={mail.lessons}>Ask about lessons</a>
+          <a class="btn" href="#resources">Resources for my students</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="foundation paper section sheet" aria-labelledby="foundation-title">
+      <div class="wrap grid">
+        <h2 id="foundation-title">A solid foundation, and your own path</h2>
+        <div class="prose">
+          <p>Every lesson builds a solid foundation: rhythm, sound production, scales, and solo work.</p>
+          <p>
+            The rest is about inspiring you to follow your own interests. You help choose the music, and you decide how
+            much time we spend on each piece. Lessons are for every age and every level, adults included: whether you’re
+            just starting, coming back to the clarinet after years away, or already playing at an advanced level.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Right-aligned, for contrast with the left-aligned sections around it. -->
+  <section class="philosophy stage section after-curtain" aria-label="Playing, not practicing">
+    <div class="wrap">
+      <blockquote>
+        <p>
+          “I don’t call it practicing. The time you spend at home with your clarinet is <em>playing</em>, because it
+          should be playful.”
+        </p>
+      </blockquote>
+      <p class="prose muted">
+        At the start, the most important thing is getting the clarinet out and playing every day. That builds good
+        habits, and it means the clarinet always stands for fun, never a chore.
+      </p>
+    </div>
+  </section>
+
+  <section class="start paper section after-curtain" aria-labelledby="start-title">
+    <div class="wrap">
+      <h2 id="start-title">Getting started</h2>
+      <ol class="steps" role="list">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="n" aria-hidden="true">{i + 1}</span>
+              <h3>{s.title}</h3>
+              <p class="copy muted">{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="cta">
+        <a class="btn btn--solid" href={mail.lessons}>Ask about lessons</a>
+        <p class="copy muted">I’ve taught clarinet in Portland since 2001. <a href="/about">More about me</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="resources stage section after-curtain" id="resources" aria-labelledby="resources-title">
+    <div class="wrap">
+      <h2 id="resources-title">For my students</h2>
+      <ul class="cards" role="list">
+        {
+          cards.map((c) => (
+            <li>
+              <a href={c.href}>
+                <h3>{c.title}</h3>
+                <span class="go">Open</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- opening ---------- */
+
+  .t-hero {
+    position: sticky;
+    top: 0;
+    height: 88svh;
+    min-height: 540px;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .t-copy {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: end;
+    justify-items: start;
+    gap: 18px;
+    padding-bottom: clamp(56px, 11svh, 120px);
+  }
+
+  .crumb {
+    font-size: var(--fs-sm);
+    color: var(--lilac);
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(3.5rem, 1rem + 8vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+  }
+
+  /* Room below each word for the g and y tails. It sits on the word itself, so
+     the word still slides fully out of sight before the intro. */
+  .line {
+    display: block;
+    overflow: hidden;
+    margin-bottom: -0.26em;
+  }
+
+  .line > span {
+    display: block;
+    position: relative;
+    width: fit-content;
+    padding-bottom: 0.26em;
+  }
+
+  /* Keep the last word's tails clear of the lead below. */
+  .line:last-child {
+    margin-bottom: -0.1em;
+  }
+
+  .old {
+    color: var(--ink);
+  }
+
+  /* Only the change to crossed out fades; going back is instant. */
+  .old.is-struck {
+    color: color-mix(in oklab, var(--ink) 30%, transparent);
+    transition: color 0.9s var(--ease);
+  }
+
+  .strike {
+    position: absolute;
+    left: 0;
+    right: -0.04em;
+    top: 0.49em;
+    height: max(3px, 0.05em);
+    border-radius: 999px;
+    background: var(--lilac);
+    transform-origin: left center;
+  }
+
+  .new {
+    font-style: italic;
+    color: var(--lilac);
+  }
+
+  .lead {
+    max-width: 28em;
+    color: var(--ink-2);
+  }
+
+  /* ---------- a solid foundation ---------- */
+
+  .foundation h2 {
+    grid-column: 1 / span 5;
+    font-size: var(--fs-xl);
+  }
+
+  .foundation .prose {
+    grid-column: 7 / span 6;
+  }
+
+  /* ---------- the quote ---------- */
+
+  .philosophy .wrap {
+    display: grid;
+    justify-items: end;
+    text-align: right;
+  }
+
+  .philosophy blockquote p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(2rem, 1rem + 3.6vw, 4.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    max-width: 16em;
+    text-wrap: balance;
+  }
+
+  .philosophy em {
+    font-style: normal;
+    color: var(--lilac);
+  }
+
+  .philosophy .prose {
+    margin-top: clamp(28px, 3vw, 44px);
+    max-width: 30em;
+  }
+
+  /* ---------- getting started ---------- */
+
+  .start h2,
+  .resources h2 {
+    font-size: var(--fs-xl);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(36px, 4vw, 56px);
+    border-top: 1px solid var(--rule);
+  }
+
+  .steps li {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: 28px 28px 0 0;
+  }
+
+  .steps li + li {
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+  }
+
+  .n {
+    font-family: var(--display);
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .steps h3 {
+    font-size: 1.6rem;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+    margin-top: clamp(48px, 5vw, 72px);
+  }
+
+  /* ---------- for my students ---------- */
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(36px, 4vw, 56px);
+    border-top: 1px solid var(--rule);
+  }
+
+  .cards li + li {
+    border-left: 1px solid var(--rule);
+  }
+
+  .cards a {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    height: 100%;
+    padding: 28px 28px 32px 0;
+    text-decoration: none;
+  }
+
+  .cards li + li a {
+    padding-left: 28px;
+  }
+
+  .cards h3 {
+    font-size: 1.75rem;
+    transition: color 0.2s;
+  }
+
+  .cards a:hover h3 {
+    color: var(--accent);
+  }
+
+  .go {
+    margin-top: 8px;
+    font-size: var(--fs-sm);
+    color: var(--accent);
+  }
+
+  @media (max-width: 860px) {
+    .foundation h2,
+    .foundation .prose {
+      grid-column: 1 / -1;
+    }
+
+    .foundation .prose {
+      margin-top: 32px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .steps,
+    .cards {
+      grid-template-columns: 1fr;
+    }
+
+    .steps li + li,
+    .cards li + li {
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .steps li,
+    .steps li + li {
+      padding: 24px 0 28px;
+    }
+
+    .cards li + li a {
+      padding-left: 0;
+    }
+  }
+</style>

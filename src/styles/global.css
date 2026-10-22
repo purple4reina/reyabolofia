@@ -1,0 +1,525 @@
+/*
+  Two surfaces carry the whole design:
+  - stage: the black of Norm Eder's backdrop, so photographs dissolve into the page
+  - paper: a pale lilac "program book" for reading
+  Components use the --fg / --fg-2 / --rule / --accent aliases so they work on both.
+*/
+
+:root {
+  --stage: #070707;
+  --stage-2: #100f12;
+  --stage-3: #19171c;
+  --ink: #ece7f1;
+  --ink-2: #a9a1b4;
+  --ink-3: #8b8496;
+  --line: rgb(236 231 241 / 0.14);
+  --lilac: #bba6e4;
+  --lilac-strong: #d5c6f4;
+  --aubergine: #4b2d75;
+  --aubergine-2: #3a2160;
+  --paper: #e8e3ed;
+  --paper-2: #ddd6e5;
+  --paper-ink: #1b1522;
+  --paper-ink-2: #574d63;
+  --paper-line: rgb(27 21 34 / 0.16);
+
+  /* Bodoni only where type is huge (the name, page titles); Newsreader for reading. */
+  --display: 'Bodoni Moda Variable', 'Bodoni 72', Didot, 'Times New Roman', serif;
+  /* Bodoni follows Newsreader only to supply symbols Newsreader lacks, like ♭. */
+  --serif: 'Newsreader Variable', 'Bodoni Moda Variable', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --hebrew: 'Frank Ruhl Libre Variable', 'Times New Roman', serif;
+
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-base: 1.0625rem;
+  --fs-read: 1.1875rem;
+  --fs-lg: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem);
+  --fs-xl: clamp(1.875rem, 1.2rem + 2.4vw, 3.125rem);
+  --fs-2xl: clamp(2.625rem, 1.3rem + 5vw, 5.5rem);
+  --fs-hero: clamp(4rem, 1.2rem + 11vw, 12rem);
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --max: 1360px;
+  --header-h: 76px;
+  --player-h: 0px;
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --fg: var(--ink);
+  --fg-2: var(--ink-2);
+  --rule: var(--line);
+  --accent: var(--lilac);
+  --surface: var(--stage);
+
+  color-scheme: dark;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --header-h: 64px;
+  }
+}
+
+.paper {
+  --fg: var(--paper-ink);
+  --fg-2: var(--paper-ink-2);
+  --rule: var(--paper-line);
+  --accent: var(--aubergine);
+  --surface: var(--paper);
+  background: var(--paper);
+  color: var(--paper-ink);
+  color-scheme: light;
+}
+
+.stage {
+  --fg: var(--ink);
+  --fg-2: var(--ink-2);
+  --rule: var(--line);
+  --accent: var(--lilac);
+  --surface: var(--stage);
+  background: var(--stage);
+  color: var(--ink);
+}
+
+/* ---------- reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Safety net against sideways scrolling; clip keeps position: sticky working. */
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--stage);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  padding-bottom: var(--player-h);
+  transition: padding-bottom 0.5s var(--ease);
+}
+
+img,
+video,
+svg,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+ol,
+ul,
+dl,
+dd {
+  margin: 0;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+:where(a) {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
+  transition:
+    color 0.2s,
+    text-decoration-color 0.2s;
+}
+
+:where(a):hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--lilac);
+  color: var(--stage);
+}
+
+/* Film grain over the stage, faint enough to feel rather than see. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hidden until the hero intro animation takes over (see Base.astro). Opacity
+   only: a transform here would be read by GSAP as the resting position. */
+html.intro-pending [data-hero-line],
+html.intro-pending [data-hero-next],
+html.intro-pending [data-hero-fade],
+html.intro-pending [data-hero-media] {
+  opacity: 0;
+}
+
+/* ---------- type ---------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.display {
+  font-family: var(--display);
+}
+
+h1 {
+  font-size: var(--fs-2xl);
+}
+
+h2 {
+  font-size: var(--fs-xl);
+}
+
+h3 {
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+}
+
+cite,
+.work {
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+.serif {
+  font-family: var(--serif);
+}
+
+.lead {
+  font-family: var(--serif);
+  font-size: var(--fs-lg);
+  line-height: 1.42;
+  text-wrap: pretty;
+}
+
+.prose {
+  font-family: var(--serif);
+  font-size: var(--fs-read);
+  line-height: 1.62;
+  max-width: 36em;
+  text-wrap: pretty;
+}
+
+.prose > * + * {
+  margin-top: 1.1em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 2em;
+}
+
+.copy {
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  max-width: 38em;
+  color: var(--fg);
+  text-wrap: pretty;
+}
+
+.copy > * + * {
+  margin-top: 1em;
+}
+
+.muted {
+  color: var(--fg-2);
+}
+
+.small {
+  font-size: var(--fs-sm);
+}
+
+.meta {
+  font-size: var(--fs-xs);
+  color: var(--fg-2);
+  letter-spacing: 0.01em;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.he {
+  font-family: var(--hebrew);
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+/* ---------- layout ---------- */
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  margin-inline: auto;
+}
+
+.wrap-narrow {
+  width: min(100% - 2 * var(--gutter), 760px);
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(88px, 12vw, 176px);
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(16px, 2.4vw, 40px);
+}
+
+/* A sticky hero with the next section sliding up over it. */
+.curtain {
+  position: relative;
+}
+
+.sheet {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 -40px 80px rgb(0 0 0 / 0.45);
+}
+
+.after-curtain {
+  position: relative;
+  z-index: 2;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -100px;
+  z-index: 200;
+  background: var(--lilac);
+  color: var(--stage);
+  padding: 10px 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  --btn-fg: var(--fg);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 46px;
+  padding: 0.7em 1.35em;
+  border: 1px solid color-mix(in oklab, var(--btn-fg) 40%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--btn-fg);
+  font-family: var(--sans);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  text-decoration: none;
+  transition:
+    background 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+
+.btn:hover {
+  border-color: var(--btn-fg);
+  color: var(--btn-fg);
+  background: color-mix(in oklab, var(--btn-fg) 8%, transparent);
+}
+
+.btn--solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--surface);
+}
+
+.btn--solid:hover {
+  background: color-mix(in oklab, var(--accent) 85%, var(--fg));
+  border-color: transparent;
+  color: var(--surface);
+}
+
+.btn svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- media ---------- */
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--stage-2);
+}
+
+.frame > picture,
+.frame > img,
+.frame > video {
+  width: 100%;
+  height: 100%;
+}
+
+.frame img,
+.frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Full-bleed photo layers (heroes, interludes): the <picture> must fill its
+   box too, or object-fit has nothing to cover. */
+[data-hero-media] picture,
+[data-interlude-media] picture {
+  height: 100%;
+}
+
+/* Parallax images sit oversized inside their frame so they can drift. */
+.frame[data-parallax] img {
+  height: 116%;
+  margin-top: -8%;
+  will-change: transform;
+}
+
+.credit {
+  font-size: var(--fs-xs);
+  color: var(--fg-2);
+  margin-top: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* View transitions between pages: a quick cross-fade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+}
+
+@media print {
+  body::after,
+  .site-header,
+  .player,
+  .site-footer {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    padding: 0;
+  }
+}

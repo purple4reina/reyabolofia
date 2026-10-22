@@ -1,0 +1,146 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+import TrackList from '../components/TrackList.astro';
+
+import chairLean from '../assets/photos/eder-chair-lean-color.jpg';
+import { excerpts, recital } from '../data/recordings';
+import { mail } from '../data/site';
+---
+
+<Base
+  title="Listen"
+  description="Live recordings by clarinetist Rey Abolofia: Verdi, Bellison, Gershwin, Milhaud, and Steve Reich’s New York Counterpoint, plus orchestral excerpts."
+>
+  <div class="curtain">
+    <PageHero
+      title="Listen"
+      image={chairLean}
+      alt="Rey Abolofia in a purple shirt, sitting backward on a wooden chair with his arms folded on its back, smiling."
+      position="50% 30%"
+    />
+
+    <section class="album stage section sheet" aria-labelledby="album-recital">
+      <div class="wrap grid">
+        <header class="album-head">
+          <h2 id="album-recital"><cite>{recital.title}</cite></h2>
+          <ul class="personnel" role="list">
+            {recital.personnel.map((p) => <li>{p}</li>)}
+          </ul>
+          <p class="meta">{recital.recorded}.</p>
+          <div class="actions">
+            <PlayButton
+              slug={recital.tracks[0].slug}
+              title={recital.title}
+              queue={recital.tracks.map((t) => t.slug)}
+              text="Play all"
+              variant="solid"
+            />
+            <a class="btn" href="/the-jewish-clarinet">About the program</a>
+          </div>
+        </header>
+        <div class="album-tracks">
+          <TrackList tracks={recital.tracks} notes />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="album stage section after-curtain excerpts" aria-labelledby="album-excerpts">
+    <div class="wrap grid">
+      <header class="album-head">
+        <h2 id="album-excerpts">{excerpts.title}</h2>
+        <p class="meta">{excerpts.recorded}.</p>
+        <div class="actions">
+          <a class="btn" href="/orchestral">For orchestras and contractors</a>
+        </div>
+      </header>
+      <div class="album-tracks">
+        <TrackList tracks={excerpts.tracks} />
+      </div>
+    </div>
+  </section>
+
+  <section class="radio paper section after-curtain" aria-labelledby="radio-title">
+    <div class="wrap grid">
+      <h2 id="radio-title">For radio</h2>
+      <div class="radio-text copy">
+        <p>
+          Broadcast-quality files of every recording on this page are available as 48 kHz, 24-bit WAV, with track
+          timings, personnel, and program notes. The press kit has bios and photographs ready to use.
+        </p>
+        <div class="actions">
+          <a class="btn btn--solid" href={mail.broadcast}>Request broadcast files</a>
+          <a class="btn" href="/press">Press kit</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .album-head {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    align-self: start;
+  }
+
+  .album-head h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: 6px;
+  }
+
+  .personnel {
+    display: grid;
+    gap: 2px;
+    font-size: var(--fs-sm);
+  }
+
+  .album-head .actions {
+    margin-top: 10px;
+  }
+
+  .album-tracks {
+    grid-column: 6 / span 7;
+  }
+
+  .excerpts {
+    background: var(--stage-2);
+  }
+
+  .radio h2 {
+    grid-column: 1 / span 4;
+    font-size: var(--fs-xl);
+  }
+
+  .radio-text {
+    grid-column: 6 / span 7;
+  }
+
+  .radio-text .actions {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 860px) {
+    .album-head,
+    .album-tracks,
+    .radio h2,
+    .radio-text {
+      grid-column: 1 / -1;
+    }
+
+    .album-head {
+      position: static;
+      margin-bottom: 40px;
+    }
+
+    .radio-text {
+      margin-top: 20px;
+    }
+  }
+</style>

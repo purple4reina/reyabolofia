@@ -1,0 +1,34 @@
+---
+// The site's mark: eleven points on a circle, the live clarinet at the top and
+// ten recorded parts around the room, as in New York Counterpoint.
+interface Props {
+  size?: number;
+  class?: string;
+  label?: string;
+}
+const { size = 28, class: className, label } = Astro.props;
+const dots = Array.from({ length: 11 }, (_, i) => {
+  const a = (i / 11) * Math.PI * 2 - Math.PI / 2;
+  return { x: +(Math.cos(a) * 9).toFixed(3), y: +(Math.sin(a) * 9).toFixed(3), live: i === 0 };
+});
+---
+
+<svg
+  class:list={['ring-mark', className]}
+  width={size}
+  height={size}
+  viewBox="-12 -12 24 24"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {
+    dots.map((d) =>
+      d.live ? (
+        <circle cx={d.x} cy={d.y} r="2.1" fill="var(--accent, #bba6e4)" />
+      ) : (
+        <circle cx={d.x} cy={d.y} r="1.15" fill="currentColor" />
+      ),
+    )
+  }
+</svg>

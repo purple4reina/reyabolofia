@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import TrackList from '../components/TrackList.astro';
+import Resume from '../components/Resume.astro';
+import Upcoming from '../components/Upcoming.astro';
+
+import standingBw from '../assets/photos/eder-standing-bw.jpg';
+
+import { excerpts } from '../data/recordings';
+import { instruments, mail, positions } from '../data/site';
+---
+
+<Base
+  title="Orchestral"
+  description="Clarinetist Rey Abolofia for orchestras and contractors: principal clarinet, E♭ clarinet, and bass clarinet in Oregon and Southwest Washington. Résumé and orchestral excerpts."
+>
+  <div class="curtain">
+    <PageHero
+      title="Orchestral"
+      lead="Clarinet, E-flat clarinet, and bass clarinet, for orchestras and contractors in Oregon and Southwest Washington."
+      image={standingBw}
+      alt="Black-and-white portrait of Rey Abolofia standing, holding his clarinet against his arm."
+      position="50% 30%"
+    >
+      <div class="actions">
+        <a class="btn btn--solid" href={mail.sub}>Add Rey to your sub list</a>
+        <a class="btn" href="/rey-abolofia-resume.pdf">Download résumé (PDF)</a>
+      </div>
+    </PageHero>
+
+    <section class="glance paper section sheet" aria-label="At a glance">
+      <div class="wrap grid">
+        <div class="positions">
+          <h2>Positions</h2>
+          <ul role="list">
+            {
+              positions.map((p) => (
+                <li>
+                  <span class="ens">{p.url ? <a href={p.url}>{p.ensemble}</a> : p.ensemble}</span>
+                  <span class="role">
+                    {p.role}, since {p.since}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <dl class="details">
+          <div>
+            <dt>Instruments</dt>
+            {instruments.map((i) => <dd>{i}</dd>)}
+          </div>
+          <div>
+            <dt>Based in</dt>
+            <dd>Portland, Oregon</dd>
+            <dd class="muted">Available throughout Oregon and Southwest Washington, and for travel</dd>
+          </div>
+          <div>
+            <dt>References</dt>
+            <dd>Available on request</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </div>
+
+  <section class="excerpts stage section after-curtain" aria-labelledby="excerpts-title">
+    <div class="wrap grid">
+      <div class="ex-head">
+        <h2 id="excerpts-title">Orchestral excerpts</h2>
+        <p class="copy muted">{excerpts.subtitle}. {excerpts.recorded}.</p>
+      </div>
+      <div class="ex-list">
+        <TrackList tracks={excerpts.tracks} />
+      </div>
+    </div>
+  </section>
+
+  <section class="cv paper section after-curtain" id="resume" aria-labelledby="cv-title">
+    <div class="wrap grid">
+      <div class="cv-head">
+        <h2 id="cv-title">Résumé</h2>
+        <div class="actions">
+          <a class="btn btn--solid" href="/rey-abolofia-resume.pdf">Download PDF</a>
+          <a class="btn" href="/resume">Printable version</a>
+        </div>
+      </div>
+      <Resume class="cv-body" />
+    </div>
+  </section>
+
+  <Upcoming title="Season" id="upcoming" />
+</Base>
+
+<style>
+  .positions {
+    grid-column: 1 / span 7;
+  }
+
+  .positions h2,
+  .ex-head h2,
+  .cv-head h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: 24px;
+  }
+
+  .positions li {
+    display: grid;
+    gap: 4px;
+    padding-block: 20px;
+    border-top: 1px solid var(--paper-line);
+  }
+
+  .positions li:last-child {
+    border-bottom: 1px solid var(--paper-line);
+  }
+
+  .ens {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.1rem);
+    line-height: 1.15;
+  }
+
+  .ens a {
+    text-decoration: none;
+  }
+
+  .role {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-sm);
+  }
+
+  .details {
+    grid-column: 9 / span 4;
+    display: grid;
+    gap: 28px;
+    align-content: start;
+    padding-top: 8px;
+  }
+
+  .details div {
+    border-top: 1px solid var(--paper-line);
+    padding-top: 14px;
+  }
+
+  .details dt {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--paper-ink-2);
+    margin-bottom: 6px;
+  }
+
+  .details dd {
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+  }
+
+  .details .muted {
+    color: var(--paper-ink-2);
+    margin-top: 4px;
+  }
+
+  .ex-head {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+
+
+  .ex-list {
+    grid-column: 6 / span 7;
+  }
+
+  .cv-head {
+    grid-column: 1 / span 4;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+
+  :global(.cv-body) {
+    grid-column: 6 / span 7;
+  }
+
+  @media (max-width: 860px) {
+    .positions,
+    .details,
+    .ex-head,
+    .ex-list,
+    .cv-head,
+    :global(.cv-body) {
+      grid-column: 1 / -1;
+    }
+
+    .details,
+    .ex-list,
+    :global(.cv-body) {
+      margin-top: 48px;
+    }
+
+    .cv-head {
+      position: static;
+    }
+  }
+</style>

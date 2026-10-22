@@ -1,0 +1,84 @@
+---
+// The résumé as a two-column list: dates on the left, details on the right.
+import { resume } from '../data/resume';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={['resume', className]}>
+  {
+    resume.map((section) => (
+      <section class="r-section">
+        <h3>{section.title}</h3>
+        <ul role="list">
+          {section.entries.map((e) => (
+            <li>
+              <span class="when num">{e.when}</span>
+              <span class="what">
+                <span class="name">{e.what}</span>
+                {(e.role || e.where) && <span class="detail">{[e.role, e.where].filter(Boolean).join(', ')}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .resume {
+    display: grid;
+    gap: clamp(32px, 4vw, 48px);
+  }
+
+  h3 {
+    font-size: 1.35rem;
+    font-style: italic;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: 16px;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+
+  .when {
+    font-size: var(--fs-sm);
+    color: var(--fg-2);
+  }
+
+  .what {
+    display: grid;
+    gap: 2px;
+  }
+
+  .name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+  }
+
+  .detail {
+    font-size: var(--fs-sm);
+    color: var(--fg-2);
+  }
+
+  @media (max-width: 560px) {
+    li {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+
+    .when {
+      order: 2;
+    }
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+// A static waveform drawn from precomputed loudness. Fills in as the track plays
+// (the player sets --progress on elements with a matching data-wave).
+import { peaksOf } from '../data/recordings';
+
+interface Props {
+  slug: string;
+  bars?: number;
+  class?: string;
+}
+const { slug, bars = 80, class: className } = Astro.props;
+const source = peaksOf(slug);
+const step = source.length / bars;
+const values = Array.from({ length: bars }, (_, i) => {
+  const chunk = source.slice(Math.floor(i * step), Math.max(Math.floor((i + 1) * step), Math.floor(i * step) + 1));
+  return Math.max(...chunk, 4);
+});
+const w = 2;
+const gap = 1.5;
+const width = bars * (w + gap) - gap;
+---
+
+<svg
+  class:list={['wave', className]}
+  data-wave={slug}
+  viewBox={`0 0 ${width} 40`}
+  preserveAspectRatio="none"
+  aria-hidden="true"
+>
+  <defs>
+    <clipPath id={`wave-${slug}`}>
+      {values.map((v, i) => <rect x={i * (w + gap)} y={20 - v / 5} width={w} height={Math.max(1.2, (v / 100) * 40)} rx="1" />)}
+    </clipPath>
+  </defs>
+  <g clip-path={`url(#wave-${slug})`}>
+    <rect class="wave-base" width={width} height="40"></rect>
+    <rect class="wave-fill" width={width} height="40"></rect>
+  </g>
+</svg>
+
+<style>
+  .wave {
+    --progress: 0;
+    width: 100%;
+    height: 32px;
+  }
+
+  .wave-base {
+    fill: color-mix(in oklab, var(--fg) 26%, transparent);
+  }
+
+  .wave-fill {
+    fill: var(--accent);
+    transform: scaleX(var(--progress));
+    transform-box: fill-box;
+    transform-origin: left;
+  }
+</style>

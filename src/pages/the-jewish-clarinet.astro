@@ -1,0 +1,679 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import PlayButton from '../components/PlayButton.astro';
+import TrackList from '../components/TrackList.astro';
+import RingMark from '../components/RingMark.astro';
+
+import standing from '../assets/photos/eder-standing-color.jpg';
+import audience from '../assets/photos/recital-audience.jpg';
+import live from '../assets/photos/live-7472-13.jpg';
+
+import { durationOf, formatTime, recital } from '../data/recordings';
+import { press } from '../data/press';
+import { mail } from '../data/site';
+
+const slugsFor = (prefix: string) => recital.tracks.filter((t) => t.slug.startsWith(prefix)).map((t) => t.slug);
+const length = (slugs: string[]) => formatTime(slugs.reduce((s, x) => s + durationOf(x), 0));
+
+const program = [
+  {
+    work: 'La forza del destino',
+    detail: '“La vita è inferno,” prelude, arranged for clarinet and piano',
+    composer: 'Giuseppe Verdi',
+    dates: '1813–1901',
+    length: length(slugsFor('verdi')),
+  },
+  {
+    work: 'Four Hebraic Pictures',
+    detail: 'Music by Grzegorz Fitelberg, Jacob Weinberg, and Boris Levenson',
+    composer: 'arr. Simeon Bellison',
+    dates: '1881–1953',
+    length: length(slugsFor('bellison')),
+    movements: [
+      { en: 'I. The Wedding', he: 'צו דער חופָּה' },
+      { en: 'a. The Preparation of the Bride', he: 'כּלה-בּאזעצן', sub: true },
+      { en: 'b. Procession', he: 'פּראָצֶעסיֶע', sub: true },
+      { en: 'II. Canzonetta: Grandmother’s Tales', he: 'בָּאבֶּע מעשיות' },
+      { en: 'III. Hebrew Dance', he: 'פרֵיילַאכס' },
+      { en: 'IV. The Maypole', he: 'קינדער קַארַאהָאד' },
+    ],
+  },
+  {
+    work: 'Three Preludes',
+    detail: 'arr. James Cohn',
+    composer: 'George Gershwin',
+    dates: '1898–1937',
+    length: length(slugsFor('gershwin')),
+    movements: [
+      { en: 'I. Allegro ben ritmato e deciso' },
+      { en: 'II. Andante con moto e poco rubato' },
+      { en: 'III. Allegro ben ritmato e deciso' },
+    ],
+  },
+  {
+    work: 'Duo concertant',
+    composer: 'Darius Milhaud',
+    dates: '1892–1974',
+    length: length(slugsFor('milhaud')),
+  },
+  {
+    work: 'New York Counterpoint',
+    detail: 'Fast – Slow – Fast, without pause',
+    composer: 'Steve Reich',
+    dates: 'b. 1936',
+    length: '11:35',
+  },
+];
+
+const facts = [
+  {
+    term: 'Length',
+    body: 'About an hour, including Rey’s introductions. About forty minutes of music.',
+  },
+  {
+    term: 'Performers',
+    body: 'Rey Abolofia, clarinet, with a pianist and a sound designer for New York Counterpoint.',
+  },
+  {
+    term: 'What the room needs',
+    body: 'A tuned piano, and space to stand ten speakers in a ring around the seats. Rey’s sound designer brings and runs the playback system.',
+  },
+  {
+    term: 'Audience',
+    body: 'No background in classical music needed. Rey introduces each piece: who wrote it, when, and where the Jewish thread runs through it. Children are welcome.',
+  },
+  {
+    term: 'The encore',
+    body: 'New York Counterpoint a second time, with the audience invited to walk among the speakers. Stand by one and you hear mostly one clarinet; step to the center and all eleven come together.',
+  },
+  {
+    term: 'Fits',
+    body: 'Community centers, synagogues, recital halls, and other rooms where the audience can sit inside the sound.',
+  },
+];
+
+const review = press[0];
+---
+
+<Base
+  title="The Jewish Clarinet"
+  description="The Jewish Clarinet: a recital by clarinetist Rey Abolofia on how Jewish composers came to help create American classical music, centered on Steve Reich’s New York Counterpoint with ten speakers around the audience."
+>
+  <div class="curtain">
+    <PageHero
+      title="The Jewish Clarinet"
+      lines={['The Jewish', 'Clarinet']}
+      italic
+      lead="A recital for clarinet, piano, and ten speakers."
+      image={standing}
+      alt="Rey Abolofia standing in a purple floral shirt, holding a clarinet in each hand."
+      position="50% 30%"
+    >
+      <div class="actions">
+        <a class="btn btn--solid" href={mail.program}>Ask about booking</a>
+        <a class="btn" href="#watch">Watch an excerpt</a>
+      </div>
+    </PageHero>
+
+    <section class="intro paper section sheet" aria-label="About the program">
+      <div class="wrap-narrow intro-inner">
+        <p class="intro-lead">
+          For most of its history, classical music grew up in two places: the church and the royal court. Jews were
+          either kept out of both or didn’t care to go. This program tells how that changed.
+        </p>
+        <div class="prose">
+          <p>
+            Five pieces, five worlds: opera, klezmer, the American songbook, French modernism, and minimalism. The
+            program opens with a clarinet solo from Verdi’s <cite>La forza del destino</cite>, then turns to four
+            twentieth-century Jewish composers who all lived and worked in America: Simeon Bellison, George Gershwin,
+            Darius Milhaud, and Steve Reich. Rey introduces each from the stage: who wrote it, when, and how being
+            Jewish shaped the music.
+          </p>
+          <p>
+            At the center is Reich’s <cite>New York Counterpoint</cite>, a cornerstone of the modern clarinet repertoire.
+            Rey plays the live part against ten clarinet parts he recorded himself. Usually those recorded parts come
+            from a pair of speakers on stage; here each part has its own speaker, in a ring around the audience, so the
+            sound arrives from every direction at once.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="program paper after-curtain" aria-labelledby="program-title">
+    <div class="wrap-narrow">
+      <div class="ornament"><RingMark size={30} /></div>
+      <h2 id="program-title" class="program-title">Program</h2>
+      <ol class="works" role="list">
+        {
+          program.map((w) => (
+            <li class="work-item">
+              <p class="work-title">
+                <cite>{w.work}</cite>
+              </p>
+              {w.detail && <p class="work-detail">{w.detail}</p>}
+              <p class="work-composer">
+                {w.composer} <span class="dates">({w.dates})</span>
+              </p>
+              {w.movements && (
+                <ul class="movements" role="list">
+                  {w.movements.map((m) => (
+                    <li class:list={{ sub: 'sub' in m && m.sub }}>
+                      <span>{m.en}</span>
+                      {'he' in m && m.he && (
+                        <span class="he" lang="yi">
+                          {m.he}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <p class="work-length num">{w.length}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="watch stage section after-curtain" id="watch" aria-labelledby="watch-title">
+    <div class="wrap grid">
+      <div class="watch-text">
+        <h2 id="watch-title">See it in the room</h2>
+        <p class="copy muted">
+          The closing pages of <cite>New York Counterpoint</cite>, live in Portland, with the speakers standing in a
+          ring around the audience.
+        </p>
+        <PlayButton
+          slug="reich-new-york-counterpoint"
+          title="Steve Reich, New York Counterpoint"
+          text="Hear the whole piece"
+          variant="pill"
+        />
+      </div>
+      <div class="watch-video">
+        <div class="frame video">
+          <video
+            controls
+            preload="none"
+            playsinline
+            poster="/video/new-york-counterpoint-poster.jpg"
+            aria-label="Video: the end of New York Counterpoint, performed live with speakers around the audience."
+          >
+            <source src="/video/new-york-counterpoint-excerpt.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notes paper section after-curtain" aria-labelledby="notes-title">
+    <div class="wrap grid">
+      <div class="notes-head">
+        <h2 id="notes-title">Program notes</h2>
+        <p class="meta">By Rey Abolofia. Presenters are welcome to reprint them.</p>
+        <Photo
+          class="notes-photo"
+          src={live}
+          alt="Rey Abolofia playing clarinet on stage in front of a dark curtain."
+          sizes="(max-width: 860px) 80vw, 28vw"
+          ratio="3 / 4"
+          position="50% 30%"
+          caption="In performance at the Eastside Jewish Commons."
+        />
+      </div>
+      <div class="prose notes-text">
+        <h3>Giuseppe Verdi <span class="dates">(1813–1901)</span></h3>
+        <p>
+          No, Verdi wasn’t Jewish, but Rey is, and the opening of the third act of <cite>La forza del destino</cite> is
+          too sumptuous to leave out. Verdi’s first triumph, <cite>Nabucco</cite> (1842), even tells a Jewish story; its
+          chorus of Hebrew exiles, “Va, pensiero,” is still sung in Italy like a second national anthem.
+        </p>
+        <p>
+          In <cite>La forza del destino</cite> (1862), Don Alvaro’s elopement with his beloved Leonora ends in
+          catastrophe when his pistol goes off by accident and kills her father. As Act III opens, Alvaro is a soldier in
+          Italy, fighting under an assumed name and believing Leonora dead. Before he sings a word, a solo clarinet sings
+          his grief for him, in one of the most famous clarinet solos in all of opera. Then Alvaro begins: “La vita è
+          inferno all’infelice,” life is hell for the unhappy.
+        </p>
+
+        <h3>Simeon Bellison <span class="dates">(1881–1953)</span></h3>
+        <p>
+          Bellison grew up in Moscow and founded the Zimro Ensemble, six Jewish musicians for whom Sergei Prokofiev
+          wrote his <cite>Overture on Hebrew Themes</cite>. In 1918 they left Russia on a world tour, hoping to raise
+          funds for a Jewish arts center in what was then British-occupied Palestine. The tour ended in New York, where
+          Bellison settled; from 1920 to 1948 he was the New York Philharmonic’s principal clarinet.
+        </p>
+        <p>
+          He never forgot the music of the old country. The <cite>Four Hebraic Pictures</cite> are his arrangements of
+          music by three fellow Jewish composers from the Russian Empire: Grzegorz Fitelberg, who dedicated The Wedding
+          to Bellison; Jacob Weinberg; and Boris Levenson. The first picture has two parts, so there are five movements
+          in all. It opens with the preparation of the bride, slow and free; listen for the clarinet singing like a
+          cantor rather than an opera tenor. Then come a graceful procession; Weinberg’s Canzonetta; Levenson’s Hebrew
+          Dance, a joyful <i>freylakhs</i>; and Weinberg’s Maypole, a racing children’s round dance. Both Weinberg pieces
+          come from his suite <cite>Bobe-mayses</cite>, Yiddish for “grandmother’s tales.”
+        </p>
+
+        <h3>George Gershwin <span class="dates">(1898–1937)</span></h3>
+        <p>
+          Like Bellison, Gershwin lived in New York in the 1920s and ’30s. Unlike Bellison, he was American-born, the son
+          of Russian-Jewish immigrants in Brooklyn. Where Bellison held on to the old country, Gershwin looked forward to
+          the music all around him: Tin Pan Alley, Broadway, and above all jazz. His <cite>Rhapsody in Blue</cite> (1924), which opens with the most famous clarinet glissando of all, helped bring jazz into the concert hall. In
+          1929 he signed with the Metropolitan Opera to write an opera on <cite>The Dybbuk</cite>, the classic of the
+          Yiddish stage, but the rights went elsewhere; his great opera would be <cite>Porgy and Bess</cite>.
+        </p>
+        <p>
+          Gershwin premiered the <cite>Three Preludes</cite> himself, at the piano, in 1926: a jaunty, syncopated first
+          prelude; a slow second he called “a sort of blues lullaby”; and a fiery finale.
+        </p>
+
+        <h3>Darius Milhaud <span class="dates">(1892–1974)</span></h3>
+        <p>
+          Milhaud began his autobiography: “I am a Frenchman from Provence, and, by religion, a Jew.” Before the war he
+          was one of the best-known composers in Paris, a member of Les Six, a circle of young French composers whose
+          bright, witty music refused to take itself too seriously. When Germany invaded France in 1940, Milhaud escaped
+          with his family to the United States and taught for the next thirty years at Mills College in Oakland,
+          California. His students included Dave Brubeck, Burt Bacharach, Philip Glass, and Steve Reich.
+        </p>
+        <p>
+          After the war he taught in alternate years at Mills and the Paris Conservatoire, for which he wrote the <cite>Duo concertant</cite> (1956) as a competition piece for clarinet students: a few short minutes that test
+          everything a clarinetist can do.
+        </p>
+
+        <h3>Steve Reich <span class="dates">(b. 1936)</span></h3>
+        <p>
+          Born in New York, Reich is one of the founders of minimalism. He studied composition at Juilliard and with
+          Darius Milhaud at Mills College, then built a new kind of music from tape loops, West African drumming, and
+          Balinese gamelan: short patterns, repeated and slowly shifted over a steady pulse. In 1976 and 1977, having
+          returned to the Judaism of his heritage, he studied Torah cantillation in New York and Jerusalem and found
+          something new: melodies built from small fragments, combined and recombined. Jewish themes run through later
+          works like <cite>Tehillim</cite> (1981), which sets Psalms in Hebrew, and <cite>Different Trains</cite> (1988).
+        </p>
+        <p>
+          <cite>New York Counterpoint</cite> (1985) was written for the clarinetist Richard Stoltzman. The soloist
+          pre-records ten clarinet and bass clarinet parts and plays the eleventh live against them, in three movements,
+          fast, slow, fast, without pause. Here you hear eleven clarinets: ten recorded in advance, each from its own
+          speaker around the room, and one live. Don’t wait for a tune. Listen instead for melodies that seem to rise out
+          of the texture, though no single clarinet is playing them.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hear stage section after-curtain" aria-labelledby="hear-title">
+    <div class="wrap grid">
+      <div class="hear-head">
+        <h2 id="hear-title">The whole program</h2>
+        <p class="meta">{recital.recorded}.</p>
+      </div>
+      <div class="hear-list">
+        <TrackList tracks={recital.tracks} />
+      </div>
+    </div>
+  </section>
+
+  <section class="presenters paper section after-curtain" aria-labelledby="presenters-title">
+    <div class="wrap">
+      <div class="presenters-head">
+        <h2 id="presenters-title">For presenters</h2>
+        <p class="lead">
+          Rey performed the program for a sold-out audience at the Eastside Jewish Commons in Portland in October 2026.
+        </p>
+      </div>
+      <dl class="facts">
+        {
+          facts.map((f) => (
+            <div>
+              <dt>{f.term}</dt>
+              <dd>{f.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <div class="proof">
+        <figure class="audience">
+          <div class="frame">
+            <img
+              src={audience.src}
+              width={audience.width}
+              height={audience.height}
+              alt="A full room watching Rey Abolofia perform on a small stage at the Eastside Jewish Commons."
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="credit">The audience at the Eastside Jewish Commons, Portland, October 2026.</figcaption>
+        </figure>
+        {
+          review && (
+            <blockquote class="review">
+              <p>“{review.quote}”</p>
+              <footer class="meta">
+                {review.author}, <a href={review.url} target="_blank" rel="noopener">{review.outlet}</a>
+              </footer>
+            </blockquote>
+          )
+        }
+      </div>
+
+      <div class="cta">
+        <p class="cta-text">To bring <cite>The Jewish Clarinet</cite> to your venue, write to Rey with your dates.</p>
+        <div class="actions">
+          <a class="btn btn--solid" href={mail.program}>Ask about booking</a>
+          <a class="btn" href="/press">Press kit</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- intro ---------- */
+
+  .intro-inner {
+    display: grid;
+    gap: clamp(28px, 4vw, 44px);
+  }
+
+  .intro-lead {
+    font-family: var(--serif);
+    font-size: var(--fs-xl);
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    text-wrap: pretty;
+  }
+
+  /* ---------- program, set like a printed program ---------- */
+
+  .program {
+    padding-bottom: clamp(88px, 12vw, 160px);
+    text-align: center;
+  }
+
+  .ornament {
+    display: flex;
+    justify-content: center;
+    color: var(--paper-ink-2);
+    margin-bottom: 20px;
+  }
+
+  .program-title {
+    font-size: var(--fs-xl);
+    font-style: italic;
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+
+  .works {
+    display: grid;
+    gap: clamp(40px, 5vw, 60px);
+  }
+
+  .work-item {
+    display: grid;
+    gap: 6px;
+    justify-items: center;
+  }
+
+  .work-title {
+    font-family: var(--serif);
+    font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.5rem);
+    line-height: 1.1;
+  }
+
+  .work-detail {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--paper-ink-2);
+    max-width: 30em;
+  }
+
+  .work-composer {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .dates {
+    font-weight: 400;
+    color: var(--paper-ink-2);
+  }
+
+  .movements {
+    margin-top: 10px;
+    display: grid;
+    gap: 4px;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    width: min(100%, 30rem);
+  }
+
+  .movements li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    padding-block: 3px;
+    border-bottom: 1px dotted var(--paper-line);
+  }
+
+  .movements li.sub {
+    padding-left: 1.4em;
+  }
+
+  .movements .he {
+    font-size: 1.1rem;
+    color: var(--paper-ink-2);
+  }
+
+  .work-length {
+    font-size: var(--fs-xs);
+    color: var(--paper-ink-2);
+    margin-top: 6px;
+  }
+
+  /* ---------- video ---------- */
+
+  .watch-text {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 22px;
+    align-content: center;
+    justify-items: start;
+  }
+
+  .watch-text h2 {
+    font-size: var(--fs-xl);
+  }
+
+  .watch-video {
+    grid-column: 6 / span 7;
+  }
+
+  .video {
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+  }
+
+  .video video {
+    object-fit: contain;
+    background: #000;
+  }
+
+  /* ---------- notes ---------- */
+
+  .notes-head {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    align-self: start;
+  }
+
+  .notes-head h2 {
+    font-size: var(--fs-xl);
+  }
+
+  :global(.notes-photo) {
+    margin-top: 24px;
+    max-width: 320px;
+  }
+
+  .notes-text {
+    grid-column: 6 / span 7;
+  }
+
+  .notes-text h3 {
+    font-size: 1.55rem;
+    margin-top: 2.2em;
+  }
+
+  .notes-text h3:first-child {
+    margin-top: 0;
+  }
+
+  .notes-text .dates {
+    font-size: 0.8em;
+  }
+
+  /* ---------- hear ---------- */
+
+  .hear-head {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+
+  .hear-head h2 {
+    font-size: var(--fs-xl);
+  }
+
+  .hear-list {
+    grid-column: 6 / span 7;
+  }
+
+  /* ---------- presenters ---------- */
+
+  .presenters-head {
+    display: grid;
+    gap: 20px;
+    max-width: 44rem;
+  }
+
+  .presenters-head h2 {
+    font-size: var(--fs-2xl);
+  }
+
+  .facts {
+    margin-top: clamp(40px, 6vw, 72px);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--paper-line);
+  }
+
+  .facts div {
+    padding: 24px 24px 28px 0;
+    border-bottom: 1px solid var(--paper-line);
+  }
+
+  .facts div:not(:nth-child(3n + 1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--paper-line);
+  }
+
+  .facts dt {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  .facts dd {
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    color: var(--paper-ink-2);
+  }
+
+  .proof {
+    margin-top: clamp(56px, 7vw, 96px);
+    display: grid;
+    grid-template-columns: minmax(0, 512px) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .audience .frame {
+    aspect-ratio: 512 / 278;
+  }
+
+  .review p {
+    font-family: var(--serif);
+    font-size: var(--fs-xl);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .review footer {
+    margin-top: 16px;
+  }
+
+  .cta {
+    margin-top: clamp(64px, 8vw, 112px);
+    padding-top: 32px;
+    border-top: 1px solid var(--paper-line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .cta-text {
+    font-family: var(--serif);
+    font-size: var(--fs-lg);
+  }
+
+  @media (max-width: 860px) {
+    .watch-text,
+    .watch-video,
+    .notes-head,
+    .notes-text,
+    .hear-head,
+    .hear-list {
+      grid-column: 1 / -1;
+    }
+
+    .watch-video,
+    .notes-text,
+    .hear-list {
+      margin-top: 40px;
+    }
+
+    .notes-head {
+      position: static;
+    }
+
+    .facts {
+      grid-template-columns: 1fr;
+    }
+
+    .facts div,
+    .facts div:not(:nth-child(3n + 1)) {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .proof {
+      grid-template-columns: 1fr;
+    }
+
+    .movements li {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>
