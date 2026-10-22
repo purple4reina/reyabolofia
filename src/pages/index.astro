@@ -244,15 +244,14 @@ const programList = [
     z-index: 0;
   }
 
-  /* The backdrop is black, so the photo can slide left and fade into the page,
-     leaving open stage on the right for the name. */
+  /* The backdrop is black, so the photo can slide left and its edges meet the
+     page without a seam, leaving open stage on the right for the name. Only
+     the bottom edge fades, so the clarinet's bell stays fully visible. */
   .hero-media {
     position: absolute;
     inset: 0 13% 0 -13%;
     transform-origin: 40% 40%;
     will-change: transform;
-    -webkit-mask-image: linear-gradient(to left, transparent, #000 22%);
-    mask-image: linear-gradient(to left, transparent, #000 22%);
   }
 
   .hero-media :global(img) {
@@ -261,7 +260,6 @@ const programList = [
     object-fit: cover;
   }
 
-  /* Darken the right side, where the name sits, and the bottom edge. */
   .hero-shade {
     position: absolute;
     inset: 0;
@@ -270,14 +268,13 @@ const programList = [
     pointer-events: none;
   }
 
+  /* Darken the bottom edge. */
   .hero::after {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-      linear-gradient(to top, rgb(7 7 7 / 0.85), rgb(7 7 7 / 0) 32%),
-      linear-gradient(to left, rgb(7 7 7 / 0.55), rgb(7 7 7 / 0) 45%);
+    background: linear-gradient(to top, rgb(7 7 7 / 0.85), rgb(7 7 7 / 0) 32%);
   }
 
   .hero-copy {
@@ -379,12 +376,8 @@ const programList = [
   @media (min-width: 861px) and (max-aspect-ratio: 8 / 5) {
     .hero-media {
       inset: 0 26% 18% -16%;
-      -webkit-mask-image:
-        linear-gradient(to left, transparent, #000 22%), linear-gradient(to top, transparent, #000 22%);
-      mask-image:
-        linear-gradient(to left, transparent, #000 22%), linear-gradient(to top, transparent, #000 22%);
-      -webkit-mask-composite: source-in;
-      mask-composite: intersect;
+      -webkit-mask-image: linear-gradient(to top, transparent, #000 22%);
+      mask-image: linear-gradient(to top, transparent, #000 22%);
     }
   }
 
