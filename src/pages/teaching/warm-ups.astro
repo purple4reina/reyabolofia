@@ -1,0 +1,151 @@
+---
+import StudentPage from '../../components/StudentPage.astro';
+import data from '../../data/students.json';
+
+const linkLabel = (label: string) => {
+  const inner = label.match(/\(([^)]+)\)/)?.[1];
+  return inner ? inner.replace(/^vol\.?\s*/i, 'Vol. ') : 'PDF';
+};
+
+const downloads = [
+  { href: '/src/fingering-chart.jpeg', label: 'Fingering chart', kind: 'Image' },
+  { href: '/src/warm-up.pdf', label: 'Warm-ups', kind: 'PDF' },
+  { href: '/src/articulation.pdf', label: 'Articulation', kind: 'PDF' },
+  { href: '/src/klose-scales.pdf', label: 'Klose scales', kind: 'PDF' },
+];
+---
+
+<StudentPage
+  title="Warm-ups and études"
+  description="Clarinet warm-ups, articulation exercises, scales, a fingering chart, and method books for middle and high school players."
+>
+  <ul class="downloads" role="list">
+    {
+      downloads.map((d) => (
+        <li>
+          <a href={d.href} target="_blank" rel="noopener">
+            <span class="d-label">{d.label}</span>
+            <span class="meta">{d.kind}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <h2 class="sub">Études</h2>
+  <p class="muted note">A selected list of method books appropriate for middle and high school clarinet players.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Composer</th>
+          <th scope="col">Title</th>
+          <th scope="col">Sheet music</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          data.etudes.map((e) => (
+            <tr>
+              <td>{e.composer}</td>
+              <td>
+                <cite>{e.title}</cite>
+              </td>
+              <td class="links">
+                {e.sheetMusic.map((l) => (
+                  <a href={l.href} target="_blank" rel="noopener">
+                    {linkLabel(l.label)}
+                  </a>
+                ))}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</StudentPage>
+
+<style>
+  .downloads {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .downloads a {
+    display: grid;
+    gap: 4px;
+    padding: 20px;
+    border: 1px solid var(--paper-line);
+    text-decoration: none;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+  }
+
+  .downloads a:hover {
+    border-color: var(--aubergine);
+    background: var(--paper-2);
+  }
+
+  .d-label {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+  }
+
+  .sub {
+    font-size: var(--fs-xl);
+    margin-top: clamp(64px, 8vw, 96px);
+  }
+
+  .note {
+    margin-top: 10px;
+    color: var(--paper-ink-2);
+  }
+
+  .table-wrap {
+    margin-top: 28px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+  }
+
+  th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--paper-ink-2);
+    padding: 0 16px 10px 0;
+    border-bottom: 1px solid var(--paper-ink-2);
+  }
+
+  td {
+    padding: 14px 16px 14px 0;
+    border-bottom: 1px solid var(--paper-line);
+    vertical-align: top;
+  }
+
+  td cite {
+    font-size: 1.08rem;
+  }
+
+  /* Stays a table cell (no flex), so its bottom rule lines up with the row's. */
+  .links {
+    white-space: nowrap;
+  }
+
+  .links a + a {
+    margin-left: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .downloads {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

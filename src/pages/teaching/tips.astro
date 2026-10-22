@@ -1,0 +1,79 @@
+---
+import StudentPage from '../../components/StudentPage.astro';
+
+const steps = ['Fast air', 'Flat chin', 'Tight corners', 'High tongue'];
+---
+
+<StudentPage
+  title="Tips"
+  description="Four steps to a great clarinet embouchure, from Rey Abolofia's teaching studio."
+>
+  <div class="tips">
+    <section>
+      <h2>Embouchure</h2>
+      <ol class="steps" role="list">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="n num">{i + 1}</span>
+              <span>{s}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <div class="prose">
+      <p>
+        Air is the most important piece of a good clarinet sound. It should be strong and fast, like a laser beam aimed
+        toward the reed. Engage your abdominal muscles and push hard.
+      </p>
+      <p>The chin must be flat like a table and stretched downward as though it is reaching for your toes.</p>
+      <p>
+        The back of the tongue should be high in the mouth, as though you are saying the letter “E.” However the lips
+        should be very circular and tight, as though you are saying the letter “O.”
+      </p>
+    </div>
+  </div>
+</StudentPage>
+
+<style>
+  .tips {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 6vw, 96px);
+  }
+
+  h2 {
+    font-size: var(--fs-xl);
+    margin-bottom: 28px;
+  }
+
+  .steps {
+    display: grid;
+    border-top: 1px solid var(--paper-line);
+  }
+
+  .steps li {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--paper-line);
+    font-family: var(--serif);
+    font-size: 1.6rem;
+  }
+
+  .n {
+    font-family: var(--sans);
+    font-size: var(--fs-sm);
+    color: var(--aubergine);
+    width: 1.5em;
+  }
+
+  @media (max-width: 760px) {
+    .tips {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

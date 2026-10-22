@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reyabolofia.com/sitemap-index.xml

@@ -1,0 +1,188 @@
+---
+// A one-page résumé laid out for print. `npm run resume:pdf` saves it as
+// public/rey-abolofia-resume.pdf.
+import '@fontsource-variable/bodoni-moda/standard.css';
+import '@fontsource-variable/newsreader/standard.css';
+import '@fontsource-variable/newsreader/standard-italic.css';
+import '@fontsource-variable/instrument-sans/wght.css';
+import { resume } from '../data/resume';
+import { site } from '../data/site';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rey Abolofia, clarinet: résumé</title>
+    <meta name="description" content="Résumé of clarinetist Rey Abolofia." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={`${site.url}/resume`} />
+  </head>
+  <body>
+    <main class="page">
+      <header class="top">
+        <h1>Rey Abolofia</h1>
+        <p class="role">Clarinet, E-flat clarinet, bass clarinet</p>
+        <p class="contact">
+          Portland, Oregon<span aria-hidden="true">&ensp;/&ensp;</span><a href={`mailto:${site.email}`}>{site.email}</a
+          ><span aria-hidden="true">&ensp;/&ensp;</span><a href={site.url}>reyabolofia.com</a>
+        </p>
+      </header>
+
+      {
+        resume.map((section) => (
+          <section>
+            <h2>{section.title}</h2>
+            <ul>
+              {section.entries.map((e) => (
+                <li>
+                  <span class="when">{e.when}</span>
+                  <span class="what">
+                    <strong>{e.what}</strong>
+                    {(e.role || e.where) && <span>{[e.role, e.where].filter(Boolean).join(', ')}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <footer class="foot">
+        <p>Instruments: clarinet in B-flat and A, E-flat clarinet, bass clarinet. References available on request.</p>
+        <p>Recordings and excerpts: reyabolofia.com/orchestral</p>
+      </footer>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  @page {
+    size: letter;
+    margin: 0.55in 0.65in;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: #e8e3ed;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Instrument Sans Variable', system-ui, sans-serif;
+    color: #1b1522;
+    font-size: 10pt;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: min(100%, 8.5in);
+    margin: 32px auto;
+    padding: 0.55in 0.65in;
+    background: #fff;
+    box-shadow: 0 10px 40px rgb(27 21 34 / 0.15);
+  }
+
+  .top {
+    border-bottom: 1px solid #1b1522;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Bodoni Moda Variable', serif;
+    font-weight: 400;
+    font-size: 30pt;
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .role {
+    font-family: 'Newsreader Variable', serif;
+    font-style: italic;
+    font-size: 12pt;
+    margin: 6px 0 2px;
+    color: #4b2d75;
+  }
+
+  .contact {
+    margin: 0;
+    color: #574d63;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  section {
+    margin-top: 12px;
+    break-inside: avoid;
+  }
+
+  h2 {
+    font-family: 'Newsreader Variable', serif;
+    font-weight: 500;
+    font-size: 12pt;
+    margin: 0 0 4px;
+    padding-bottom: 3px;
+    border-bottom: 0.5pt solid #c9c1d2;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 1.15in 1fr;
+    gap: 10px;
+    padding: 3px 0;
+  }
+
+  .when {
+    color: #574d63;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .what strong {
+    font-weight: 600;
+  }
+
+  .what span::before {
+    content: ', ';
+  }
+
+  .foot {
+    margin-top: 16px;
+    padding-top: 8px;
+    border-top: 0.5pt solid #c9c1d2;
+    color: #574d63;
+  }
+
+  .foot p {
+    margin: 0;
+  }
+
+  @media print {
+    html {
+      background: #fff;
+    }
+
+    .page {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      box-shadow: none;
+    }
+  }
+</style>

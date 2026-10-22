@@ -1,0 +1,190 @@
+---
+import StudentPage from '../../components/StudentPage.astro';
+import data from '../../data/students.json';
+
+// "clarinet" / "piano" links keep their names; plain "link" becomes "PDF".
+const sheetLabel = (label: string) => (label === 'link' ? 'PDF' : label[0].toUpperCase() + label.slice(1));
+---
+
+<StudentPage
+  title="Solos"
+  description="Clarinet solo repertoire for middle and high school players, with recordings, free sheet music, and difficulty levels."
+>
+  <p class="accomp">
+    <a href={data.accompaniment} target="_blank" rel="noopener">Audio for piano accompaniment</a>
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Composer</th>
+          <th scope="col">Title</th>
+          <th scope="col">Instrumentation</th>
+          <th scope="col">Recording</th>
+          <th scope="col">Sheet music</th>
+          <th scope="col">Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          data.solos.map((s) => (
+            <tr>
+              <td class="composer">{s.composer}</td>
+              <td class="title-cell">
+                <cite>{s.title}</cite>
+              </td>
+              <td class="muted-cell">{s.instrumentation}</td>
+              <td class="links rec">
+                {s.recordings.map((href) => (
+                  <a href={href} target="_blank" rel="noopener">
+                    Listen
+                  </a>
+                ))}
+              </td>
+              <td class="links sheet">
+                {s.sheetMusic.map((l) => (
+                  <a href={l.href} target="_blank" rel="noopener">
+                    {sheetLabel(l.label)}
+                  </a>
+                ))}
+              </td>
+              <td class="level num">{s.level}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</StudentPage>
+
+<style>
+  .accomp {
+    margin-bottom: 28px;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+  }
+
+  th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--paper-ink-2);
+    padding: 0 16px 10px 0;
+    border-bottom: 1px solid var(--paper-ink-2);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px 12px 0;
+    border-bottom: 1px solid var(--paper-line);
+    vertical-align: top;
+  }
+
+  tbody tr:hover {
+    background: var(--paper-2);
+  }
+
+  .composer {
+    white-space: nowrap;
+  }
+
+  td cite {
+    font-size: 1.05rem;
+  }
+
+  .muted-cell {
+    color: var(--paper-ink-2);
+    white-space: nowrap;
+  }
+
+  .links {
+    white-space: nowrap;
+  }
+
+  .links a + a {
+    margin-left: 12px;
+  }
+
+  .level {
+    text-align: right;
+    padding-right: 0;
+  }
+
+  /* Phones: each solo becomes a short stacked entry instead of a wide row.
+     Flex rather than grid: Chrome mis-paints grid layout on table rows. */
+  @media (max-width: 760px) {
+    table,
+    tbody {
+      display: block;
+      min-width: 0;
+    }
+
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: 14px;
+      row-gap: 2px;
+      padding-block: 14px;
+      border-bottom: 1px solid var(--paper-line);
+    }
+
+    td {
+      display: block;
+      padding: 0;
+      border: 0;
+    }
+
+    .composer {
+      order: 1;
+      flex: 1 1 auto;
+      color: var(--paper-ink-2);
+      font-size: var(--fs-xs);
+    }
+
+    .level {
+      order: 2;
+      font-size: var(--fs-xs);
+      color: var(--paper-ink-2);
+    }
+
+    .level:not(:empty)::before {
+      content: 'Level ';
+    }
+
+    .title-cell {
+      order: 3;
+      flex-basis: 100%;
+    }
+
+    .muted-cell {
+      order: 4;
+      font-size: var(--fs-xs);
+    }
+
+    .rec {
+      order: 5;
+    }
+
+    .sheet {
+      order: 6;
+    }
+
+    .links:empty {
+      display: none;
+    }
+  }
+</style>

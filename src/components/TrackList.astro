@@ -1,0 +1,165 @@
+---
+import PlayButton from './PlayButton.astro';
+import Waveform from './Waveform.astro';
+import { durationOf, formatTime, trackTitle, type Track } from '../data/recordings';
+
+interface Props {
+  tracks: Track[];
+  notes?: boolean;
+  class?: string;
+}
+const { tracks, notes = false, class: className } = Astro.props;
+const queue = tracks.map((t) => t.slug);
+---
+
+<ol class:list={['tracks', className]} role="list">
+  {
+    tracks.map((t) => (
+      <li class="track" data-track-row={t.slug}>
+        <PlayButton slug={t.slug} title={`${t.composer}, ${trackTitle(t)}`} queue={queue} />
+        <div class="info">
+          <span class="composer">{t.composer}</span>
+          <span class="title">
+            <cite>{t.work}</cite>
+            {t.part && <span class="part">{t.part}</span>}
+          </span>
+          {t.arranger && <span class="arr">{t.arranger}</span>}
+        </div>
+        <Waveform slug={t.slug} class="track-wave" />
+        <span class="dur num">{formatTime(durationOf(t.slug))}</span>
+        {notes && t.note && (
+          <details class="notes">
+            <summary>About this piece</summary>
+            <p>{t.note}</p>
+            {t.with && <p class="with">With {t.with.join('; ')}</p>}
+          </details>
+        )}
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .tracks {
+    border-top: 1px solid var(--rule);
+  }
+
+  .track {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto;
+    grid-template-areas: 'play info wave dur' '. notes notes notes';
+    align-items: center;
+    column-gap: clamp(14px, 2.2vw, 32px);
+    padding-block: 18px;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.3s var(--ease);
+  }
+
+  .track :global(.play-btn) {
+    grid-area: play;
+  }
+
+  .info {
+    grid-area: info;
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .composer {
+    font-size: var(--fs-sm);
+    color: var(--fg-2);
+  }
+
+  .title {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .title cite {
+    font-size: 1.25rem;
+  }
+
+  .part {
+    font-family: var(--serif);
+    color: var(--fg);
+  }
+
+  .part::before {
+    content: ': ';
+  }
+
+  .arr {
+    font-size: var(--fs-xs);
+    color: var(--fg-2);
+  }
+
+  :global(.track-wave) {
+    grid-area: wave;
+  }
+
+  .dur {
+    grid-area: dur;
+    font-size: var(--fs-sm);
+    color: var(--fg-2);
+    min-width: 3.2em;
+    text-align: right;
+  }
+
+  .notes {
+    grid-area: notes;
+    margin-top: 10px;
+    font-size: var(--fs-sm);
+    color: var(--fg-2);
+    max-width: 44em;
+  }
+
+  .notes summary {
+    cursor: pointer;
+    width: fit-content;
+    color: var(--fg);
+    list-style: none;
+    display: inline-flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+
+  .notes summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .notes summary::before {
+    content: '+';
+    width: 1em;
+    color: var(--accent);
+  }
+
+  .notes[open] summary::before {
+    content: '–';
+  }
+
+  .notes p {
+    margin-top: 8px;
+    padding-left: 1.5em;
+  }
+
+  .with {
+    font-style: italic;
+  }
+
+  @media (max-width: 760px) {
+    .track {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: 'play info dur' '. notes notes';
+    }
+
+    :global(.track-wave) {
+      display: none;
+    }
+
+    .title,
+    .title cite {
+      font-size: 1.08rem;
+    }
+  }
+</style>

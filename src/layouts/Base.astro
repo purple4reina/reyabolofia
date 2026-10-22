@@ -1,0 +1,113 @@
+---
+import '@fontsource-variable/bodoni-moda/standard.css';
+import '@fontsource-variable/bodoni-moda/standard-italic.css';
+import '@fontsource-variable/newsreader/standard.css';
+import '@fontsource-variable/newsreader/standard-italic.css';
+import '@fontsource-variable/instrument-sans/wght.css';
+import '@fontsource-variable/frank-ruhl-libre/wght.css';
+import '../styles/global.css';
+import bodoniUrl from '@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-standard-normal.woff2?url';
+import newsreaderUrl from '@fontsource-variable/newsreader/files/newsreader-latin-standard-normal.woff2?url';
+import instrumentUrl from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
+
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PlayerBar from '../components/PlayerBar.astro';
+import { positions, site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  /** Page background under the header: most pages open on the stage. */
+  noindex?: boolean;
+}
+
+const { title, description = site.description, image = '/og.jpg', noindex = false } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name}, clarinetist`;
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), site.url).href;
+const ogImage = new URL(image, site.url).href;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: 'Clarinetist',
+  url: site.url,
+  image: ogImage,
+  email: `mailto:${site.email}`,
+  description: site.description,
+  address: { '@type': 'PostalAddress', addressLocality: 'Portland', addressRegion: 'OR', addressCountry: 'US' },
+  memberOf: positions.map((p) => ({ '@type': 'PerformingGroup', name: p.ensemble })),
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Portland State University' },
+    { '@type': 'CollegeOrUniversity', name: 'Eastman School of Music' },
+    { '@type': 'CollegeOrUniversity', name: 'Louisiana State University' },
+  ],
+  sameAs: [site.instagram],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#070707" />
+    <meta name="color-scheme" content="dark light" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href={bodoniUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={newsreaderUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={instrumentUrl} as="font" type="font/woff2" crossorigin />
+
+    <script is:inline>
+      // Before first paint: hide the hero's entrance elements so the intro
+      // animation starts clean. A timer reveals them if the scripts never run.
+      (function () {
+        var root = document.documentElement;
+        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+          root.classList.add('intro-pending');
+          setTimeout(function () {
+            root.classList.remove('intro-pending');
+          }, 4000);
+        }
+      })();
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    <slot name="head" />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <PlayerBar />
+
+    <script>
+      import '../scripts/app';
+    </script>
+  </body>
+</html>

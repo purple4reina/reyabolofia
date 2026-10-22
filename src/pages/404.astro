@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import RingMark from '../components/RingMark.astro';
+---
+
+<Base title="Page not found" noindex>
+  <section class="nf stage">
+    <div class="wrap">
+      <RingMark size={56} />
+      <h1>This page isn’t here.</h1>
+      <p class="copy muted">
+        It may have moved when the site was redesigned. Student materials are now under
+        <a href="/teaching">Teaching</a>.
+      </p>
+      <div class="actions">
+        <a class="btn btn--solid" href="/">Go to the home page</a>
+        <a class="btn" href="/listen">Listen</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 88svh;
+    display: grid;
+    align-items: center;
+    padding-top: var(--header-h);
+  }
+
+  .nf .wrap {
+    display: grid;
+    gap: 24px;
+    justify-items: start;
+  }
+
+  h1 {
+    font-size: var(--fs-2xl);
+    max-width: 12em;
+  }
+</style>

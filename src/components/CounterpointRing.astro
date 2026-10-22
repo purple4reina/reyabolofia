@@ -1,0 +1,385 @@
+---
+// New York Counterpoint as a ring: the live clarinet at the top, ten speakers
+// around the audience. Scrolling tells the story; playing the recording lights
+// each speaker while its part is sounding.
+import PlayButton from './PlayButton.astro';
+import nycParts from '../data/nyc-parts.json';
+
+interface Props {
+  videoHref?: string;
+}
+const { videoHref } = Astro.props;
+
+const R = 168;
+const points = Array.from({ length: 11 }, (_, i) => {
+  const a = (i / 11) * Math.PI * 2 - Math.PI / 2;
+  return {
+    i,
+    id: i === 0 ? 'Live' : `Cl${i}`,
+    x: +(Math.cos(a) * R).toFixed(2),
+    y: +(Math.sin(a) * R).toFixed(2),
+    lx: +(Math.cos(a) * (R + 30)).toFixed(2),
+    ly: +(Math.sin(a) * (R + 30)).toFixed(2),
+  };
+});
+
+// Audience: a loose grid of seats inside the ring.
+const seats: { x: number; y: number }[] = [];
+for (let y = -96; y <= 96; y += 16) {
+  for (let x = -112; x <= 112; x += 16) {
+    const ox = (y / 16) % 2 ? 8 : 0;
+    const px = x + ox;
+    if (px * px + y * y < 100 * 100 && !(Math.abs(px) < 30 && Math.abs(y) < 14)) seats.push({ x: px, y });
+  }
+}
+
+const steps = [
+  'Steve Reich wrote it for one clarinetist and eleven clarinet parts.',
+  'Rey records ten of the parts in advance, playing every one himself.',
+  'Each recorded part plays from its own speaker, in a ring around the audience.',
+  'He plays the eleventh part live. You don’t so much listen to the piece as sit inside it.',
+];
+---
+
+<section class="ring-story stage" data-ring aria-labelledby="ring-title">
+  <script type="application/json" data-ring-data set:html={JSON.stringify(nycParts)} />
+  <div class="sticky">
+    <div class="layout wrap">
+      <div class="text">
+        <h2 id="ring-title"><cite>New York Counterpoint</cite></h2>
+        <ol class="steps" role="list">
+          {steps.map((s, i) => <li data-step={i}>{s}</li>)}
+        </ol>
+        <div class="actions">
+          <PlayButton
+            slug="reich-new-york-counterpoint"
+            title="Steve Reich, New York Counterpoint"
+            text="Play the recording"
+            variant="solid"
+          />
+          {videoHref && <a class="btn" href={videoHref}>Watch an excerpt</a>}
+        </div>
+        <p class="legend meta">Each light is one clarinet part, lit while it sounds.</p>
+      </div>
+
+      <figure class="figure">
+        <svg class="ring" viewBox="-230 -230 460 460" role="img" aria-labelledby="ring-desc" data-ring-svg>
+          <desc id="ring-desc">
+            Diagram: eleven points on a circle. The live clarinetist is at the top; ten speakers, one per recorded
+            part, stand around the rest of the circle, with the audience seated in the middle.
+          </desc>
+          <circle class="orbit" r={R} />
+          <circle class="progress" r={R} pathLength="1" transform="rotate(-90)" data-ring-progress />
+          <g class="seats" data-ring-seats>
+            {seats.map((s) => <circle cx={s.x} cy={s.y} r="2.3" />)}
+          </g>
+          <text class="center-label" y="5" text-anchor="middle" data-ring-center>Audience</text>
+          <g class="rays">
+            {points.slice(1).map((p) => <line x2={(p.x * 0.62).toFixed(2)} y2={(p.y * 0.62).toFixed(2)} x1={p.x} y1={p.y} data-ray={p.id} />)}
+          </g>
+          {
+            points.map((p) => (
+              <g class:list={['node', p.i === 0 ? 'node--live' : 'node--speaker']} data-part={p.id} data-index={p.i} transform={`translate(${p.x} ${p.y})`}>
+                <circle class="halo" r={p.i === 0 ? 30 : 24} />
+                <circle class="dot" r={p.i === 0 ? 11 : 8} />
+                {p.i !== 0 && <circle class="cone" r="3" />}
+              </g>
+            ))
+          }
+          {
+            points.map((p) => (
+              <text class="label" x={p.lx} y={p.ly + 4} text-anchor="middle" data-label={p.id}>
+                {p.i === 0 ? 'Live' : p.i}
+              </text>
+            ))
+          }
+        </svg>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ring-story {
+    position: relative;
+    z-index: 2;
+    height: 420svh;
+  }
+
+  .sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    gap: clamp(24px, 5vw, 80px);
+  }
+
+  h2 {
+    font-size: var(--fs-2xl);
+    line-height: 0.98;
+  }
+
+  .steps {
+    position: relative;
+    margin-top: clamp(24px, 3vw, 40px);
+    min-height: 4.4em;
+    font-family: var(--serif);
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+  }
+
+  /* Outgoing sentences leave quickly; the next one arrives after a beat, so
+     two never overlap. */
+  .steps li {
+    position: absolute;
+    inset: 0 0 auto 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    filter: blur(4px);
+    transition:
+      opacity 0.25s ease-in,
+      transform 0.25s ease-in,
+      filter 0.25s ease-in;
+    text-wrap: pretty;
+  }
+
+  .steps li.is-active {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition:
+      opacity 0.6s var(--ease) 0.22s,
+      transform 0.7s var(--ease) 0.22s,
+      filter 0.6s var(--ease) 0.22s;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .legend {
+    margin-top: 18px;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease);
+  }
+
+  :global([data-ring].is-live) .legend {
+    opacity: 1;
+  }
+
+  .figure {
+    width: min(100%, 78svh);
+    justify-self: center;
+  }
+
+  .ring {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .orbit {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+
+  .progress {
+    fill: none;
+    stroke: var(--lilac);
+    stroke-width: 1.5;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0.8;
+  }
+
+  .seats circle {
+    fill: var(--ink-3);
+    opacity: 0;
+    transition: opacity 0.8s var(--ease);
+  }
+
+  :global([data-ring][data-stage='2']) .seats circle,
+  :global([data-ring][data-stage='3']) .seats circle,
+  :global([data-ring].is-live) .seats circle {
+    opacity: 0.75;
+  }
+
+  .center-label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    fill: var(--ink-2);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease);
+  }
+
+  :global([data-ring][data-stage='2']) .center-label,
+  :global([data-ring][data-stage='3']) .center-label,
+  :global([data-ring].is-live) .center-label {
+    opacity: 1;
+  }
+
+  .rays line {
+    stroke: var(--lilac);
+    stroke-width: 1;
+    opacity: 0;
+    transition: opacity 0.18s linear;
+  }
+
+  :global([data-ring][data-stage='2']) .rays line,
+  :global([data-ring][data-stage='3']) .rays line {
+    opacity: 0.16;
+  }
+
+  .rays :global(line.is-on) {
+    opacity: 0.55 !important;
+  }
+
+  .node {
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+  }
+
+  .node.is-shown,
+  :global([data-ring].is-live) .node {
+    opacity: 1;
+  }
+
+  .dot {
+    fill: var(--stage-3);
+    stroke: var(--ink-2);
+    stroke-width: 1.2;
+    transition:
+      fill 0.15s linear,
+      stroke 0.15s linear;
+  }
+
+  .cone {
+    fill: var(--ink-3);
+    transition: fill 0.15s linear;
+  }
+
+  .halo {
+    fill: var(--lilac);
+    opacity: 0;
+    transform: scale(0.6);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      opacity 0.2s linear,
+      transform 0.35s var(--ease);
+  }
+
+  .node--live .dot {
+    fill: var(--lilac);
+    stroke: var(--lilac);
+  }
+
+  .node.is-on .dot {
+    fill: var(--lilac);
+    stroke: var(--lilac-strong);
+  }
+
+  .node.is-on .cone {
+    fill: var(--stage);
+  }
+
+  .node.is-on .halo {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+
+  :global([data-ring][data-stage='3']) .node--live .halo {
+    opacity: 0.22;
+    transform: scale(1);
+    animation: breathe 2.4s var(--ease-in-out) infinite;
+  }
+
+  @keyframes breathe {
+    50% {
+      transform: scale(1.25);
+      opacity: 0.08;
+    }
+  }
+
+  .label {
+    font-family: var(--sans);
+    font-size: 12px;
+    fill: var(--ink-3);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+  }
+
+  .label.is-shown,
+  :global([data-ring].is-live) .label {
+    opacity: 1;
+  }
+
+  /* Without scroll animation, show the whole diagram and every sentence. */
+  :global(html.no-motion) .ring-story,
+  :global([data-ring].is-static) {
+    height: auto;
+  }
+
+  :global(html.no-motion) .sticky {
+    position: static;
+    height: auto;
+    padding-block: clamp(88px, 12vw, 160px);
+  }
+
+  :global(html.no-motion) .steps {
+    min-height: 0;
+  }
+
+  :global(html.no-motion) .steps li {
+    position: static;
+    opacity: 1;
+    transform: none;
+    margin-top: 0.6em;
+  }
+
+  :global(html.no-motion) .node,
+  :global(html.no-motion) .label,
+  :global(html.no-motion) .seats circle,
+  :global(html.no-motion) .center-label {
+    opacity: 1;
+  }
+
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .figure {
+      order: -1;
+      width: min(86vw, 46svh);
+    }
+
+    h2 {
+      font-size: clamp(2.1rem, 9vw, 3rem);
+    }
+
+    .steps {
+      font-size: 1.15rem;
+      min-height: 4.4em;
+      margin-top: 12px;
+    }
+
+    .actions {
+      margin-top: 14px;
+    }
+  }
+</style>

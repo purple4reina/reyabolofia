@@ -1,0 +1,597 @@
+{
+ "accompaniment": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRWvF_Vg-rt3He-uruxEScpu4nRVz9uR78JSwGqrYomk_6gRsCES1kmxnHhdDNT6BHr3YqJ5Atr070F/pubhtml",
+ "solos": [
+  {
+   "composer": "Burgmüller, Friedrich",
+   "title": "Duo for clarinet and piano Op. 15",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/j9olMf04Rms"
+   ],
+   "sheetMusic": [],
+   "level": "4/5"
+  },
+  {
+   "composer": "Brahms, Johannes",
+   "title": "Sonata No. 1 in F Minor, Op. 120",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "2-4"
+  },
+  {
+   "composer": "Brahms, Johannes",
+   "title": "Sonata No. 2 in Eb Major, Op. 120",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "2-4"
+  },
+  {
+   "composer": "Braun, Wilhelm",
+   "title": "Clarinet Concerto in E-flat major",
+   "instrumentation": "Cl, orch",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/9/9e/IMSLP725384-PMLP994624-Wilhelm_Braun_-_Concerto_for_Clarinet_-_Solo_Clarinet_in_Bb.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Bozza, Eugene",
+   "title": "Aria",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "2"
+  },
+  {
+   "composer": "Bozza, Eugene",
+   "title": "Idylle",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "2"
+  },
+  {
+   "composer": "Cahuzac, Louis",
+   "title": "Cantilène",
+   "instrumentation": "Cl, pno or orch",
+   "recordings": [
+    "https://youtu.be/pt0KNTHXOF0"
+   ],
+   "sheetMusic": [],
+   "level": "4"
+  },
+  {
+   "composer": "Crusell, Bernhard Henrik",
+   "title": "Clarinet Concerto No. 1, Op. 1",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/dfBnoGfJxUo"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/2/20/IMSLP533872-PMLP710149-Crusell_-_Concerto_for_Clarinet_no_1_op_1_-_Solo_Clarinet_in_Bb.pdf"
+    }
+   ],
+   "level": ""
+  },
+  {
+   "composer": "Crusell, Bernhard Henrik",
+   "title": "Clarinet Concerto No. 2, Op. 5",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/_HtXSeZlnuE"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/5/53/IMSLP534461-PMLP539326-Crusell_-_Concerto_for_Clarinet_no_2_op_5_-_Solo_Clarinet_in_Bb.pdf"
+    }
+   ],
+   "level": ""
+  },
+  {
+   "composer": "Crusell, Bernhard Henrik",
+   "title": "Clarinet Concerto No. 3, Op. 11",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/uFXSHmroIFI"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/a/ad/IMSLP117666-PMLP238705-crusell-clarinetconcerto3-solopart.pdf"
+    }
+   ],
+   "level": ""
+  },
+  {
+   "composer": "Cunningham, Randall",
+   "title": "Variations on a Theme of Haydn Op. 5",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "1/2"
+  },
+  {
+   "composer": "Debussy, Claude",
+   "title": "Petite Piece for Clarinet and Piano",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "1"
+  },
+  {
+   "composer": "Delmas, Marc",
+   "title": "Promenade",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/9/93/IMSLP46027-SIBLEY1802.3792.7d10-39087004968071.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Dimler, Franz Anton",
+   "title": "Concerto in Bb",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/uAS2F3S3tns"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/8/8c/IMSLP408474-PMLP661559-dimler_cl_c_ed.pdf"
+    }
+   ],
+   "level": "2/3"
+  },
+  {
+   "composer": "Finzi, Gerald",
+   "title": "Five Bagatelles",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/6r5_UQl3nug"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://petruccimusiclibrary.ca/files/imglnks/caimg/3/3d/IMSLP451063-PMLP733508-Finzi_-_Five_Bagatelles,_Op._23_for_Clarinete_and_Piano_(Score_Part).pdf"
+    }
+   ],
+   "level": "2/3"
+  },
+  {
+   "composer": "Finzi, Gerald",
+   "title": "Clarinet Concerto, Op. 31",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/JmRJ1cdGNE8"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://petruccimusiclibrary.ca/files/imglnks/caimg/3/31/IMSLP632783-PMLP1015382-finzi_clarinet_concerto.pdf"
+    }
+   ],
+   "level": ""
+  },
+  {
+   "composer": "Gade, N",
+   "title": "Fantasy Pieces",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "3"
+  },
+  {
+   "composer": "Hindemith, Paul",
+   "title": "Sonate für Klarinette in B und Klavier",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://petruccimusiclibrary.ca/files/imglnks/caimg/7/78/IMSLP309376-PMLP500081-Hin_Cl_Son_cl_pt254.pdf"
+    }
+   ],
+   "level": "4/5"
+  },
+  {
+   "composer": "Krommer, Franz",
+   "title": "Concerto",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/RfE3Qea9y_A"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/4/42/IMSLP518631-PMLP411885-Krommer_-_Concerto_for_Clarinet_Op_36_-_Solo_Clarinet_in_Bb.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Lefevre, X",
+   "title": "Sonata No. 1",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/4/41/IMSLP623015-PMLP914807-Lefev_12_Sonatas_cl_basse.pdf"
+    }
+   ],
+   "level": "1"
+  },
+  {
+   "composer": "Milhaud, Darius",
+   "title": "Duo Concertant",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/ztEUE4lo5Fk"
+   ],
+   "sheetMusic": [],
+   "level": ""
+  },
+  {
+   "composer": "Mozart, Wolfgang Amadeus",
+   "title": "Concerto in A",
+   "instrumentation": "Cl, orch",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "5"
+  },
+  {
+   "composer": "Muczynski, Robert",
+   "title": "Time Pieces For Clarinet and Piano",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/CfxzR74KiDE"
+   ],
+   "sheetMusic": [],
+   "level": "5"
+  },
+  {
+   "composer": "Pierné, Gabriel",
+   "title": "Canzonetta",
+   "instrumentation": "Cl, pno or orch",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/5/56/IMSLP78521-PMLP158977-Piern%C3%A9_-_Canzonetta,_Op._19_(clarinet_and_piano).pdf"
+    }
+   ],
+   "level": "3/4"
+  },
+  {
+   "composer": "Poulenc, Francois",
+   "title": "Sonata",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://petruccimusiclibrary.ca/files/imglnks/caimg/2/29/IMSLP366873-PMLP592480-Poulenc_Clarinet_Sonata_part.pdf"
+    }
+   ],
+   "level": "5"
+  },
+  {
+   "composer": "Reissiger, Carl Gottlieb",
+   "title": "Concertino Op. 63",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/zunmkA7ktgU"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/4/45/IMSLP401406-PMLP649848-Reissiger-Concertino63-clar.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Ries, Ferdinand",
+   "title": "Sonata, Op. 169",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/Jl9hzErOSXM"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/9/95/IMSLP269065-PMLP435904-Ries_169_pr_Q_55_299_3.pdf"
+    }
+   ],
+   "level": "4"
+  },
+  {
+   "composer": "Ries, Ferdinand",
+   "title": "Sonata, Op. 29",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/UVimzPLlZ_s"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/1/16/IMSLP413604-PMLP670538-Ries_-_Clarinet_Sonata_Op29_-_clpf-BDH.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Riotte, Philipp Jakob",
+   "title": "Concerto Op. 24",
+   "instrumentation": "Cl, orch",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/a/a9/IMSLP217514-PMLP360886-Riotte_-_24_-_Clarinet_concerto.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Rudolph, Erzherzog",
+   "title": "Sonata for Clarinet and Piano",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/a/a2/IMSLP576495-PMLP928285-erzherzog_sonata_clarinet.pdf"
+    }
+   ],
+   "level": "2/3"
+  },
+  {
+   "composer": "Saint-Saëns, Camille",
+   "title": "Sonata for Clarinet and Piano",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/C2iTzsS6iOo"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/c/c3/IMSLP13804-Sainsaens-cl.pdf"
+    }
+   ],
+   "level": "3"
+  },
+  {
+   "composer": "Schumann, Robert",
+   "title": "Fantasy Pieces for Clarinet and Piano",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/0/04/IMSLP380761-PMLP57120-SCHUMANN-Fantasiest%C3%BCcke_Op.73=clar-pno_-_Clarinet_in_Bb.pdf"
+    }
+   ],
+   "level": "2/3"
+  },
+  {
+   "composer": "Stamitz, Carl",
+   "title": "Concerto No. 3",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/HCESq4rNbdQ"
+   ],
+   "sheetMusic": [
+    {
+     "label": "clarinet",
+     "href": "https://ks15.imslp.org/files/imglnks/usimg/2/2f/IMSLP563890-PMLP600057-Carl_Stamitz_-_Concerto_n._3_(Parte_Clarinetto).pdf"
+    },
+    {
+     "label": "piano",
+     "href": "https://ks15.imslp.org/files/imglnks/usimg/a/a7/IMSLP563891-PMLP600057-Carl_Stamitz_-_Concerto_n._3_(Score).pdf"
+    }
+   ],
+   "level": "2/3"
+  },
+  {
+   "composer": "Stamitz, Johann",
+   "title": "Concerto",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/NyGNKWC6rms"
+   ],
+   "sheetMusic": [],
+   "level": "4"
+  },
+  {
+   "composer": "Stevens, Halsey",
+   "title": "4 Folk Songs of Touraine",
+   "instrumentation": "",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "1"
+  },
+  {
+   "composer": "Tausch, F",
+   "title": "Concerto in F",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/stTSa5r9wZ8"
+   ],
+   "sheetMusic": [],
+   "level": "3"
+  },
+  {
+   "composer": "Vaughn Williams, Ralph",
+   "title": "Six Studies in English Folksong",
+   "instrumentation": "Cl, pno",
+   "recordings": [],
+   "sheetMusic": [],
+   "level": "1/2"
+  },
+  {
+   "composer": "Weber, Carl Maria von",
+   "title": "Concertino",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/SR9oxnm66bY"
+   ],
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/c/ce/IMSLP24817-PMLP06240-Klarinette.pdf"
+    }
+   ],
+   "level": "3/4"
+  },
+  {
+   "composer": "Weber, Carl Maria von",
+   "title": "Concerto No. 1",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/arNCFAD25Z0"
+   ],
+   "sheetMusic": [],
+   "level": "3/4"
+  },
+  {
+   "composer": "Weber, Carl Maria von",
+   "title": "Concerto No. 2",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/dPdPL16lE0k"
+   ],
+   "sheetMusic": [],
+   "level": "4"
+  },
+  {
+   "composer": "Weber, Carl Maria von",
+   "title": "Duo Concertante",
+   "instrumentation": "Cl, pno",
+   "recordings": [
+    "https://youtu.be/yRxVuBd1InE"
+   ],
+   "sheetMusic": [],
+   "level": "4"
+  },
+  {
+   "composer": "Yost, Michel",
+   "title": "Concerto No. 9",
+   "instrumentation": "Cl, orch",
+   "recordings": [
+    "https://youtu.be/fVSIsPMX68Q"
+   ],
+   "sheetMusic": [],
+   "level": "3"
+  }
+ ],
+ "etudes": [
+  {
+   "composer": "Demnitz, Friedrich",
+   "title": "Elementary School for the Clarinet",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/9/91/IMSLP625321-PMLP1004372-demnitz_elementary_school_1951.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Hovey, N. W.",
+   "title": "Rubank Elementary Method for Clarinet",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "src/rubank-elementary-clarinet.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Kröpsch, Fritz",
+   "title": "416 Studies",
+   "sheetMusic": [
+    {
+     "label": "link(vol.1)",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/8/8d/IMSLP298582-PMLP483745-Kr_st_1.pdf"
+    },
+    {
+     "label": "link(vol.2)",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/8/89/IMSLP298583-PMLP483745-Kr_st_2.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Lefèvre, Jean Xavier",
+   "title": "60 Exercises for Clarinet",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/d/df/IMSLP625548-PMLP914807-Lefevre-60-Exercices.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Rose, Cyrille",
+   "title": "32 Etudes for Clarinet",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/d/d8/IMSLP248657-SIBLEY1802.22147.352f-39087023672902score.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Rose, Cyrille",
+   "title": "40 Etudes for Clarinet",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/b/bf/IMSLP29006-PMLP64394-40_Studies.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Schubert, Franz Ludwig",
+   "title": "Small Clarinet Method",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "https://s9.imslp.org/files/imglnks/usimg/8/88/IMSLP278479-PMLP452109-fl_schubert_clarinettenschule_381313840.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Skornicka and Miller",
+   "title": "Rubank Intmediate Method for Clarinet",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "src/rubank-intermediate-clarinet.pdf"
+    }
+   ]
+  },
+  {
+   "composer": "Stievenard, Emile",
+   "title": "Practical Study of the Scales",
+   "sheetMusic": [
+    {
+     "label": "link",
+     "href": "src/stievenard-practical-study-of-scales.pdf"
+    }
+   ]
+  }
+ ]
+}

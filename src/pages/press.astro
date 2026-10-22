@@ -1,0 +1,460 @@
+---
+import { statSync } from 'node:fs';
+import { join } from 'node:path';
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+
+import horizontalBw from '../assets/photos/eder-horizontal-bw.jpg';
+import horizontalColor from '../assets/photos/eder-horizontal-color.jpg';
+import standingBw from '../assets/photos/eder-standing-bw.jpg';
+import chairColor from '../assets/photos/eder-chair-color.jpg';
+import standingColor from '../assets/photos/eder-standing-color.jpg';
+import chairBw from '../assets/photos/eder-chair-bw.jpg';
+
+import { bios, wordCount } from '../data/bios';
+import { press, formatDate } from '../data/press';
+import { durationOf, formatTime, recital } from '../data/recordings';
+import { mail, site } from '../data/site';
+
+const photos = [
+  { file: 'rey-abolofia-clarinet-color', thumb: horizontalColor, label: 'With clarinet, color', orientation: 'Landscape' },
+  { file: 'rey-abolofia-clarinet-bw', thumb: horizontalBw, label: 'With clarinet, black and white', orientation: 'Landscape' },
+  { file: 'rey-abolofia-standing-bw', thumb: standingBw, label: 'Standing, black and white', orientation: 'Landscape' },
+  { file: 'rey-abolofia-headshot-color', thumb: chairColor, label: 'Headshot, color', orientation: 'Landscape' },
+  { file: 'rey-abolofia-standing-color', thumb: standingColor, label: 'Standing, two clarinets', orientation: 'Landscape' },
+  { file: 'rey-abolofia-chair-bw', thumb: chairBw, label: 'On a chair, black and white', orientation: 'Landscape' },
+].map((p) => {
+  const path = `/press/${p.file}_photo-norm-eder.jpg`;
+  const bytes = statSync(join(process.cwd(), 'public', path)).size;
+  return { ...p, path, size: `${(bytes / 1e6).toFixed(1)} MB` };
+});
+
+const bioBlocks = [
+  { id: 'bio-short', title: 'Short', text: [bios.short] },
+  { id: 'bio-medium', title: 'Medium', text: bios.medium },
+  { id: 'bio-long', title: 'Long', text: bios.long },
+];
+---
+
+<Base
+  title="Press kit"
+  description="Press kit for clarinetist Rey Abolofia: biographies in three lengths, high-resolution photographs, and broadcast-ready recordings with track details."
+>
+  <div class="curtain">
+    <PageHero
+      title="Press kit"
+      image={horizontalBw}
+      alt="Black-and-white photo of Rey Abolofia seated cross-legged, holding his clarinet out at arm's length."
+      position="30% 40%"
+    >
+      <p class="hero-mail"><a href={mail.press}>{site.email}</a></p>
+    </PageHero>
+
+    <section class="facts paper sheet" aria-label="Fact sheet">
+      <div class="wrap facts-grid">
+        <div>
+          <span class="k">Name</span>
+          <span class="v">Rey Abolofia</span>
+        </div>
+        <div>
+          <span class="k">Instrument</span>
+          <span class="v">Clarinet, bass clarinet, E♭ clarinet</span>
+        </div>
+        <div>
+          <span class="k">Position</span>
+          <span class="v">Principal Clarinet, Salem Philharmonia Orchestra</span>
+        </div>
+        <div>
+          <span class="k">Based in</span>
+          <span class="v">Portland, Oregon</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="bios paper section after-curtain" id="bios" aria-labelledby="bios-title">
+    <div class="wrap grid">
+      <div class="side-head">
+        <h2 id="bios-title">Biographies</h2>
+        <p class="copy muted">Use any of these as written, or edit for length. Please keep the titles and dates.</p>
+      </div>
+      <div class="bio-list">
+        {
+          bioBlocks.map((b) => (
+            <article class="bio">
+              <header>
+                <h3>{b.title}</h3>
+                <span class="meta">{wordCount(b.text)} words</span>
+                <button class="copy-btn" type="button" data-copy={b.id}>
+                  <span data-copy-label>Copy text</span>
+                </button>
+              </header>
+              <div class="bio-text" id={b.id}>
+                {b.text.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="photos stage section after-curtain" id="photos" aria-labelledby="photos-title">
+    <div class="wrap">
+      <div class="photos-head">
+        <h2 id="photos-title">Photographs</h2>
+        <p class="copy muted">
+          High-resolution JPEGs, 3600 pixels on the long side. Please credit <strong>Norm Eder</strong>.
+        </p>
+      </div>
+      <ul class="photo-grid" role="list">
+        {
+          photos.map((p) => (
+            <li>
+              <a class="photo-link" href={p.path} download>
+                <div class="frame">
+                  <Picture
+                    src={p.thumb}
+                    alt={`${p.label}. Photo by Norm Eder.`}
+                    formats={['webp']}
+                    widths={[480, 720, 960]}
+                    sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                    quality={78}
+                  />
+                </div>
+                <span class="photo-meta">
+                  <span class="photo-label">{p.label}</span>
+                  <span class="meta">
+                    {p.orientation}, JPEG, {p.size}
+                  </span>
+                  <span class="dl">Download</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="radio paper section after-curtain" id="radio" aria-labelledby="radio-title">
+    <div class="wrap grid">
+      <div class="side-head">
+        <h2 id="radio-title">For radio</h2>
+        <p class="copy muted">
+          {recital.recorded}. Performers: {recital.personnel.join('; ')}.
+        </p>
+        <div class="actions">
+          <a class="btn btn--solid" href={mail.broadcast}>Request WAV files</a>
+          <a class="btn" href="/listen">Listen</a>
+          <a class="btn" href="/the-jewish-clarinet">Program notes</a>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="tracks">
+          <caption class="visually-hidden">Track list with timings</caption>
+          <thead>
+            <tr>
+              <th scope="col">Composer</th>
+              <th scope="col">Work</th>
+              <th scope="col" class="num">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              recital.tracks.map((t) => (
+                <tr>
+                  <td>
+                    {t.composer}
+                    {t.arranger && <span class="arr">{t.arranger}</span>}
+                  </td>
+                  <td>
+                    <cite>{t.work}</cite>
+                    {t.part && <span>: {t.part}</span>}
+                  </td>
+                  <td class="num">{formatTime(durationOf(t.slug))}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="coverage stage section after-curtain" aria-labelledby="coverage-title">
+    <div class="wrap grid">
+      <div class="side-head">
+        <h2 id="coverage-title">Coverage</h2>
+      </div>
+      <ul class="coverage-list" role="list">
+        {
+          press.map((p) => (
+            <li>
+              <p class="meta">
+                {p.outlet}, {formatDate(p.date)}
+              </p>
+              <a class="headline" href={p.url} target="_blank" rel="noopener">
+                {p.headline}
+              </a>
+              {p.quote && <p class="quote">“{p.quote}”</p>}
+              {p.author && <p class="meta">By {p.author}</p>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero-mail a {
+    font-family: var(--serif);
+    font-size: var(--fs-lg);
+  }
+
+  /* ---------- facts ---------- */
+
+  /* The top space matches the first section on the other pages, so the
+     strip of paper showing under the opening photo has no text in it yet. */
+  .facts {
+    padding-block: max(clamp(88px, 12vw, 176px), 14svh) clamp(40px, 5vw, 64px);
+    border-bottom: 1px solid var(--paper-line);
+  }
+
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .facts-grid div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .k {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--paper-ink-2);
+  }
+
+  .v {
+    font-size: var(--fs-sm);
+  }
+
+  /* ---------- shared heads ---------- */
+
+  .side-head {
+    grid-column: 1 / span 4;
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+
+  .side-head h2,
+  .photos-head h2 {
+    font-size: var(--fs-xl);
+  }
+
+  /* ---------- bios ---------- */
+
+  .bio-list {
+    grid-column: 6 / span 7;
+    display: grid;
+    gap: clamp(40px, 5vw, 64px);
+  }
+
+  .bio header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--paper-line);
+    margin-bottom: 18px;
+  }
+
+  .bio h3 {
+    font-size: 1.5rem;
+  }
+
+  .copy-btn {
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--paper-line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: var(--fs-xs);
+    color: var(--paper-ink);
+  }
+
+  .copy-btn:hover {
+    border-color: var(--aubergine);
+    color: var(--aubergine);
+  }
+
+  .bio-text {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    display: grid;
+    gap: 0.9em;
+  }
+
+  /* ---------- photos ---------- */
+
+  .photos-head {
+    display: grid;
+    gap: 14px;
+    max-width: 40rem;
+    margin-bottom: clamp(36px, 5vw, 56px);
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.4vw, 32px);
+  }
+
+  .photo-link {
+    display: grid;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .photo-link .frame {
+    aspect-ratio: 3 / 2;
+  }
+
+  .photo-link :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+
+  .photo-link:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  .photo-meta {
+    display: grid;
+    gap: 2px;
+  }
+
+  .photo-label {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+  }
+
+  .dl {
+    margin-top: 6px;
+    font-size: var(--fs-sm);
+    color: var(--lilac);
+  }
+
+  /* ---------- radio ---------- */
+
+  .table-wrap {
+    grid-column: 6 / span 7;
+    overflow-x: auto;
+  }
+
+  .tracks {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+  }
+
+  .tracks th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--paper-ink-2);
+    padding: 0 12px 10px 0;
+    border-bottom: 1px solid var(--paper-ink-2);
+  }
+
+  .tracks td {
+    padding: 12px 12px 12px 0;
+    border-bottom: 1px solid var(--paper-line);
+    vertical-align: top;
+  }
+
+  .tracks .num {
+    text-align: right;
+    padding-right: 0;
+    white-space: nowrap;
+  }
+
+  .tracks cite {
+    font-size: 1.05rem;
+  }
+
+  .arr {
+    display: block;
+    font-size: var(--fs-xs);
+    color: var(--paper-ink-2);
+  }
+
+  /* ---------- coverage ---------- */
+
+  .coverage-list {
+    grid-column: 6 / span 7;
+  }
+
+  .coverage-list li {
+    display: grid;
+    gap: 10px;
+    padding-block: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .headline {
+    font-family: var(--serif);
+    font-size: var(--fs-lg);
+    line-height: 1.25;
+    text-decoration: none;
+  }
+
+  .quote {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 1100px) {
+    .photo-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .side-head,
+    .bio-list,
+    .table-wrap,
+    .coverage-list {
+      grid-column: 1 / -1;
+    }
+
+    .side-head {
+      position: static;
+      margin-bottom: 36px;
+    }
+
+    .facts-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .photo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

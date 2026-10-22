@@ -1,0 +1,73 @@
+---
+// A photograph in a frame: responsive WebP with a JPEG fallback, optional
+// scroll drift (parallax), and the photographer's credit.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  sizes?: string;
+  ratio?: string;
+  position?: string;
+  parallax?: boolean | number;
+  credit?: string;
+  caption?: string;
+  priority?: boolean;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  sizes = '100vw',
+  ratio,
+  position = 'center',
+  parallax = false,
+  credit,
+  caption,
+  priority = false,
+  class: className,
+} = Astro.props;
+
+const drift = parallax === true ? 6 : parallax || undefined;
+---
+
+<figure class:list={['photo', className]}>
+  <div class="frame" data-parallax={drift} style={ratio ? `aspect-ratio: ${ratio}` : undefined}>
+    <Picture
+      src={src}
+      alt={alt}
+      formats={['webp']}
+      layout="full-width"
+      fit="cover"
+      style={`object-position: ${position}`}
+      sizes={sizes}
+      priority={priority}
+      quality={80}
+    />
+  </div>
+  {
+    (caption || credit) && (
+      <figcaption class="credit">
+        {caption}
+        {caption && credit && ' '}
+        {credit && <span class="by">Photo: {credit}</span>}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .photo {
+    margin: 0;
+  }
+
+  .frame {
+    height: 100%;
+  }
+
+  .by {
+    white-space: nowrap;
+  }
+</style>

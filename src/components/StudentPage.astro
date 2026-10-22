@@ -1,0 +1,105 @@
+---
+// Shared frame for the student resource pages: a quiet header on the stage,
+// links between the pages, and the content on paper.
+import Base from '../layouts/Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+
+const pages = [
+  { href: '/teaching/warm-ups', label: 'Warm-ups and études' },
+  { href: '/teaching/solos', label: 'Solos' },
+  { href: '/teaching/tips', label: 'Tips' },
+];
+const path = Astro.url.pathname.replace(/\.html$/, '');
+---
+
+<Base title={title} description={description}>
+  <header class="s-head stage">
+    <div class="wrap">
+      <p class="crumb"><a href="/teaching">Teaching</a></p>
+      <h1>{title}</h1>
+      <nav class="s-nav" aria-label="Student resources">
+        <ul role="list">
+          {
+            pages.map((p) => (
+              <li>
+                <a href={p.href} aria-current={path === p.href ? 'page' : undefined}>
+                  {p.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <section class="s-body paper section">
+    <div class="wrap">
+      <slot />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .s-head {
+    padding-top: calc(var(--header-h) + clamp(48px, 8vw, 112px));
+    padding-bottom: clamp(36px, 5vw, 56px);
+  }
+
+  .crumb {
+    font-size: var(--fs-sm);
+    margin-bottom: 18px;
+  }
+
+  .crumb a {
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  .crumb a:hover {
+    color: var(--lilac);
+  }
+
+  h1 {
+    font-size: var(--fs-2xl);
+  }
+
+  .s-nav {
+    margin-top: clamp(32px, 4vw, 48px);
+  }
+
+  .s-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .s-nav a {
+    display: inline-block;
+    padding: 9px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    color: var(--ink-2);
+  }
+
+  .s-nav a:hover {
+    color: var(--ink);
+    border-color: var(--ink-2);
+  }
+
+  .s-nav a[aria-current='page'] {
+    background: var(--lilac);
+    border-color: var(--lilac);
+    color: var(--stage);
+  }
+
+  .s-body {
+    min-height: 50svh;
+  }
+</style>

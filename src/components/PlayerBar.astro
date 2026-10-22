@@ -1,0 +1,229 @@
+---
+// The site-wide player. It persists across page navigations, so a visitor can
+// keep listening while reading the press kit or the program.
+import { playerCatalog } from '../data/recordings';
+---
+
+<div class="player" data-player data-state="idle" role="region" aria-label="Audio player" transition:persist="player">
+  <script type="application/json" data-player-catalog set:html={JSON.stringify(playerCatalog)} />
+  <audio preload="none" data-audio></audio>
+  <div class="inner">
+    <button class="toggle" type="button" data-p-toggle aria-label="Play">
+      <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"></path></svg>
+      <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"
+        ><rect x="3.6" y="2.8" width="3" height="10.4" fill="currentColor"></rect><rect
+          x="9.4"
+          y="2.8"
+          width="3"
+          height="10.4"
+          fill="currentColor"></rect></svg
+      >
+    </button>
+
+    <div class="meta" aria-live="polite">
+      <span class="composer" data-p-composer></span>
+      <span class="work"><cite data-p-work></cite><span class="part" data-p-part></span></span>
+    </div>
+
+    <div
+      class="seek"
+      data-p-seek
+      role="slider"
+      tabindex="0"
+      aria-label="Seek"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      aria-valuetext="0:00"
+    >
+      <canvas data-p-canvas></canvas>
+    </div>
+
+    <span class="time num"><span data-p-current>0:00</span><span class="sep">/</span><span data-p-duration>0:00</span></span>
+
+    <div class="skip">
+      <button type="button" data-p-prev aria-label="Previous track">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h1.6v10H4zM13 3v10L6.2 8z" fill="currentColor"></path></svg>
+      </button>
+      <button type="button" data-p-next aria-label="Next track">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.4 3H12v10h-1.6zM3 3v10l6.8-5z" fill="currentColor"></path></svg>
+      </button>
+    </div>
+
+    <button class="close" type="button" data-p-close aria-label="Stop and close the player">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9m0-9l-9 9" stroke="currentColor" stroke-width="1.4"></path></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  import '../scripts/player';
+</script>
+
+<style>
+  .player {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 60;
+    background: rgb(16 15 18 / 0.92);
+    backdrop-filter: blur(18px) saturate(1.3);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    --fg: var(--ink);
+    --fg-2: var(--ink-2);
+    --accent: var(--lilac);
+    transform: translateY(105%);
+    transition: transform 0.6s var(--ease);
+  }
+
+  .player:not([data-state='idle']) {
+    transform: none;
+  }
+
+  .inner {
+    height: 76px;
+    width: min(100% - 2 * var(--gutter), var(--max));
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: auto minmax(0, 15rem) minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: clamp(12px, 2vw, 28px);
+  }
+
+  .toggle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--lilac);
+    color: var(--stage);
+    display: grid;
+    place-items: center;
+  }
+
+  .toggle svg {
+    width: 15px;
+    height: 15px;
+    grid-area: 1 / 1;
+  }
+
+  .i-pause,
+  :global(.player[data-state='playing']) .i-play {
+    opacity: 0;
+  }
+
+  :global(.player[data-state='playing']) .i-pause {
+    opacity: 1;
+  }
+
+  .meta {
+    display: grid;
+    min-width: 0;
+    line-height: 1.25;
+  }
+
+  .composer {
+    font-size: var(--fs-xs);
+    color: var(--ink-2);
+  }
+
+  .work {
+    font-family: var(--serif);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .part:not(:empty)::before {
+    content: ': ';
+  }
+
+  .seek {
+    height: 40px;
+    cursor: pointer;
+    touch-action: none;
+  }
+
+  .seek canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .time {
+    font-size: var(--fs-xs);
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .sep {
+    margin-inline: 0.35em;
+    opacity: 0.6;
+  }
+
+  .skip {
+    display: flex;
+    gap: 4px;
+  }
+
+  .skip button,
+  .close {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: none;
+    border: 0;
+    color: var(--ink-2);
+    border-radius: 50%;
+  }
+
+  .skip button:hover,
+  .close:hover {
+    color: var(--ink);
+    background: rgb(236 231 241 / 0.08);
+  }
+
+  .skip svg,
+  .close svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .inner {
+      height: 68px;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas: 'toggle meta skip close';
+      gap: 10px;
+    }
+
+    .toggle {
+      grid-area: toggle;
+      width: 42px;
+      height: 42px;
+    }
+
+    .meta {
+      grid-area: meta;
+    }
+
+    .skip {
+      grid-area: skip;
+    }
+
+    .close {
+      grid-area: close;
+    }
+
+    .time {
+      display: none;
+    }
+
+    .seek {
+      position: absolute;
+      inset: -11px 0 auto 0;
+      height: 22px;
+    }
+  }
+</style>

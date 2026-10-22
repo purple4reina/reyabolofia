@@ -1,0 +1,323 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+
+import portrait from '../assets/photos/eder-seated-bw.jpg';
+import stagePhoto from '../assets/photos/eder-floor-seated.jpg';
+
+import { bios } from '../data/bios';
+import { education, positions } from '../data/site';
+
+const teaching = [
+  {
+    title: 'Private studio, Portland',
+    years: 'Since 2001',
+    body: 'Clarinet lessons from beginners through advanced students. His students have won first place at the Portland solo contest (2022, 2023), the Oregon state chamber contest (2023), and the Beaverton solo contest (2017), and have gone on to the Portland Youth Philharmonic, the Metropolitan Youth Symphony, and music study in college.',
+  },
+  {
+    title: 'Music Camps at Wallowa Lake',
+    years: 'Since 2007',
+    body: 'Music history faculty since 2023, after ten summers as a senior counselor at the woodwind camp in Joseph, Oregon.',
+  },
+  {
+    title: 'Daraja Music Initiative, Tanzania',
+    years: '2018 and 2019',
+    body: 'Taught beginning and intermediate clarinet in Moshi, organized field trips, and gave community performances.',
+  },
+];
+---
+
+<Base
+  title="About"
+  description="Biography of clarinetist Rey Abolofia: Principal Clarinet of the Salem Philharmonia Orchestra, recitalist, music historian, and teacher in Portland, Oregon."
+>
+  <div class="curtain">
+    <PageHero
+      title="About"
+      lead="Orchestral clarinetist, recitalist, music historian, and teacher, based in Portland, Oregon."
+      image={portrait}
+      alt="Black-and-white portrait of Rey Abolofia seated cross-legged on a stool, holding his clarinet upright."
+      position="35% 40%"
+    />
+
+    <section class="bio paper section sheet" aria-label="Biography">
+      <div class="wrap grid">
+        <div class="bio-text prose">
+          {bios.long.map((p, i) => <p class:list={{ first: i === 0 }}>{p}</p>)}
+          <p class="to-press"><a href="/press#bios">Short and medium bios for programs and press</a></p>
+        </div>
+
+        <aside class="side" aria-label="At a glance">
+          <div class="block">
+            <h2>Orchestras</h2>
+            <ul role="list">
+              {
+                positions.map((p) => (
+                  <li>
+                    <span>{p.ensemble}</span>
+                    <span class="sub">
+                      {p.role}, since {p.since}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="block">
+            <h2>Education</h2>
+            <ul role="list">
+              {
+                education.map((e) => (
+                  <li>
+                    <span>{e.school}</span>
+                    <span class="sub">
+                      {e.detail}
+                      {e.years && `, ${e.years}`}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="block">
+            <h2>Honors</h2>
+            <ul role="list">
+              <li>
+                <span>President’s Award for Outstanding Community Engagement</span>
+                <span class="sub">Portland State University, 2008</span>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- A window onto a photo that stays put behind the page: the bio lifts off
+       it like a stage curtain going up, and Teaching slides up over it. -->
+  <section class="stage-window stage" aria-label="Portrait" data-interlude="1.15">
+    <div class="window-frame">
+      <div class="window-media" data-interlude-media>
+        <Picture
+          src={stagePhoto}
+          alt="Rey Abolofia in a purple shirt, sitting on a gray stage floor with his knees up, smiling, holding his clarinet upright."
+          formats={['webp']}
+          layout="full-width"
+          fit="cover"
+          sizes="(orientation: portrait) 256vw, 100vw"
+          quality={80}
+        />
+      </div>
+      <p class="credit window-credit">Photo: Norm Eder</p>
+    </div>
+  </section>
+
+  <section class="teaching paper section sheet after-curtain" aria-labelledby="teaching-title">
+    <div class="wrap grid">
+      <div class="teach-head">
+        <h2 id="teaching-title">Teaching</h2>
+        <p class="lead">
+          Rey has taught clarinet since 2001: in his own studio, at summer camp in eastern Oregon, and in Tanzania.
+        </p>
+        <p class="copy"><a href="/teaching">Lessons and resources for students</a></p>
+      </div>
+      <ul class="teach-list" role="list">
+        {
+          teaching.map((t) => (
+            <li>
+              <h3>{t.title}</h3>
+              <p class="meta">{t.years}</p>
+              <p class="copy">{t.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bio-text {
+    grid-column: 1 / span 7;
+  }
+
+  .bio-text .first::first-line {
+    font-variant-caps: small-caps;
+    letter-spacing: 0.02em;
+  }
+
+  .to-press {
+    font-family: var(--sans);
+    font-size: var(--fs-sm);
+    padding-top: 12px;
+  }
+
+  .side {
+    grid-column: 9 / span 4;
+    display: grid;
+    gap: 36px;
+    align-content: start;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    align-self: start;
+  }
+
+  .block h2 {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--paper-ink-2);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--paper-line);
+    margin-bottom: 12px;
+  }
+
+  .block li {
+    display: grid;
+    gap: 2px;
+    padding-block: 8px;
+    font-size: var(--fs-sm);
+  }
+
+  .sub {
+    color: var(--paper-ink-2);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+  }
+
+  /* The bio's bottom edge shades the photo as it lifts off. */
+  .bio {
+    box-shadow:
+      0 -40px 80px rgb(0 0 0 / 0.45),
+      0 40px 80px rgb(0 0 0 / 0.45);
+  }
+
+  /* portrait on the stage */
+
+  /* The section is the window; clip-path clips the fixed frame inside it to
+     the section's box. It sits under the bio and Teaching so their shadows
+     fall on the photo. */
+  .stage-window {
+    position: relative;
+    z-index: 0;
+    height: 130svh;
+    clip-path: inset(0);
+  }
+
+  /* Fills the screen below the header. On portrait screens it shrinks to the
+     height that fits Rey across the width with room for the zoom, sitting at
+     the bottom with the black stage above. */
+  .window-frame {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(calc(100lvh - var(--header-h)), 170vw);
+    overflow: hidden;
+    container-type: size;
+  }
+
+  /* Placement is worked out from Rey's head, not the shoes. In the photo
+     (3:2) his head starts 18% down and his shoes end 94.5% down. He is
+     centred in the frame when he fits; when he doesn't, his head keeps a
+     little room and the shoes run off the bottom.
+       --ih    height of the photo as drawn (object-fit: cover)
+       --y     where the photo's top edge sits in the frame
+       --head  where his head starts in the frame */
+  .window-media {
+    --ih: max(100cqh, 100cqw / 1.5023);
+    --y: clamp(
+      100cqh - var(--ih),
+      max(50cqh - 0.5625 * var(--ih), clamp(24px, 4cqh, 48px) - 0.18 * var(--ih)),
+      0px
+    );
+    --head: calc(var(--y) + 0.18 * var(--ih));
+    position: absolute;
+    inset: 0;
+    /* Zooms out slowly while the window passes (see initInterludes), from
+       his head, so the head never moves. */
+    transform-origin: 56% var(--head);
+    will-change: transform;
+  }
+
+  /* Portrait screens have black stage above the photo, so the zoom can grow
+     upward from his shoes and keep all of him in view. */
+  @media (orientation: portrait) {
+    .window-media {
+      transform-origin: 56% calc(var(--y) + 0.945 * var(--ih));
+    }
+  }
+
+  .window-media :global(picture) {
+    display: block;
+    height: 100%;
+  }
+
+  .window-media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 56% var(--y);
+  }
+
+  .window-credit {
+    position: absolute;
+    top: clamp(16px, 3vw, 40px);
+    right: var(--gutter);
+    margin: 0;
+    color: var(--ink-3);
+  }
+
+  /* teaching */
+
+  .teach-head {
+    grid-column: 1 / span 5;
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  .teach-head h2 {
+    font-size: var(--fs-2xl);
+  }
+
+  .teach-list {
+    grid-column: 7 / span 6;
+    display: grid;
+  }
+
+  .teach-list li {
+    display: grid;
+    gap: 6px;
+    padding-block: 24px;
+    border-top: 1px solid var(--paper-line);
+  }
+
+  .teach-list li:last-child {
+    border-bottom: 1px solid var(--paper-line);
+  }
+
+  .teach-list h3 {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 860px) {
+    .bio-text,
+    .side,
+    .teach-head,
+    .teach-list {
+      grid-column: 1 / -1;
+    }
+
+    .side {
+      position: static;
+      margin-top: 56px;
+    }
+
+    .teach-list {
+      margin-top: 48px;
+    }
+  }
+</style>
