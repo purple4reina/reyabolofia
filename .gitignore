@@ -1,6 +1,5 @@
 # build output
 dist/
-_site/
 .astro/
 
 # dependencies
