@@ -515,7 +515,7 @@
    "sheetMusic": [
     {
      "label": "link",
-     "href": "src/rubank-elementary-clarinet.pdf"
+     "href": "/src/rubank-elementary-clarinet.pdf"
     }
    ]
   },
@@ -579,7 +579,7 @@
    "sheetMusic": [
     {
      "label": "link",
-     "href": "src/rubank-intermediate-clarinet.pdf"
+     "href": "/src/rubank-intermediate-clarinet.pdf"
     }
    ]
   },
@@ -589,7 +589,7 @@
    "sheetMusic": [
     {
      "label": "link",
-     "href": "src/stievenard-practical-study-of-scales.pdf"
+     "href": "/src/stievenard-practical-study-of-scales.pdf"
     }
    ]
   }
